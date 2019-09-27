@@ -110,3 +110,35 @@ http://shellandslate.com/fastmedian.html
   - Evaluate different techniques
   - Re-evaluate Breta's text detection
   - Training a new text detection algorithm? Possibility?
+
+## Sept 26
+
+### Progress
+
+#### Evaluation of Different Text Detection Methodologies
+
+1. Handwriting OCR Text Detection
+   - Pre-processing is applied:
+   - Apply a light gaussian blur to the image
+   - Sobel operator is applied to each channel of an RGB image.
+   - The max results from each channel are collated into a single 2D array
+   - An absolute threshold of 50 is applied to the image
+   - The image is closed with a 15x15px square
+   - Text-detection begins:
+   - A small image is generated from the original
+   - OpenCV is used to find contours from the previously processed image
+   - Contours are iterated over and manually checked. Absolute values are used to throw out large bounding rectangles.
+   - Rectangles within a certain range of values are kept.
+   - These are drawn and displayed returned as words.
+2. Primitive Blob Detection
+    - Provided good results with sample images, however, proved unwieldy with tight text or low resolution photos.
+3. CNN Text Detection
+    - Very promising results on text. Detected words in adverse conditions.
+    - Need to try on dense board as well as future scenarios.
+    - Speed? Takes about 2s per image for large images. 1s for small.
+4. Self-Taught CNN
+    - Started in on attempt at training a similar neural network.
+    - Pulled down datasets mentioned earlier
+    - Started trying to collate them into a similar format to begin learning off of, encountered difficulties formatting for regions only
+
+Best results were achieved from method #3, further investigation with a larger variety of images will be needed.
