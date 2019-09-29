@@ -142,3 +142,16 @@ http://shellandslate.com/fastmedian.html
     - Started trying to collate them into a similar format to begin learning off of, encountered difficulties formatting for regions only
 
 Best results were achieved from method #3, further investigation with a larger variety of images will be needed.
+
+### Minutes
+
+- Use #3, experiment with pre-processing
+- Line vs Word detection
+- Search to see if someone has done pre-prcoessing for text on whiteboard
+
+### Next Week
+
+- Continue tweaking and testing Text detection
+- Test with further whiteboard images and pre-processing
+- Investigate line vs word detection. Could one better?
+- Search for any resources on whiteboard-specific text detection
