@@ -187,3 +187,11 @@ Best results were achieved from method #3, further investigation with a larger v
 
 - How will the existing text detection frameworks be implemented into the project? Both are MIT, however, a supplementary model is downloaded which can be quite large -- Not a good thing to commit into a repo.
 - Are pretrained models also under the license of the project? The CRAFT model won't supply the code that the pretrained model was trained with, for instance. OpenAI published a model and excluded the data too. It seems to be common practicd to link the model in the README so I would assume they mean for it to be included under the license? This needs more research.
+
+### Minutes
+
+- Spend more time looking for off-line whiteboard detection
+- Continue tweaking text-detection
+- If I have time, evaluate OCR algorithm
+- Research underlying technology
+- Look into licensing a bit more - specifically Apache
