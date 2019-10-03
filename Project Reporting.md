@@ -155,3 +155,30 @@ Best results were achieved from method #3, further investigation with a larger v
 - Test with further whiteboard images and pre-processing
 - Investigate line vs word detection. Could one better?
 - Search for any resources on whiteboard-specific text detection
+
+## Oct 3
+
+### Progress
+
+#### Continued Tweaking and Testing of Text Detection Algorithms
+
+- Continued evaluation of the CPTN Text Detection framework
+  - Tested on a variety of images. Results were alright with uncomplicated whiteboard scenarios. Started to run into trouble with more complicated scenes.
+  - Framework as attempting to string sentences together which resulted in lots of overlapping bounding boxes
+  - Could potentially be bad since boxes weren't oriented, thus, would result in a poor crop when attempting to extract words.
+  - Pre-processing images (Eg: removing background, thresholding, adjusting for brightness, etc) had minimal impact on results.
+- Tested out a new text detection framework: CRAFT
+  - CRAFT selects single words and attempts to orient bounding box to the word. This would result in better crops for word recognition.
+  - Results were promising and competitive with CPTN. Performed potentially better in more complicated boards.
+  - Tested with pre-processed images. They made little difference.
+
+#### Line vs. Word Recognition
+
+- Far more word recognition than line recognition algorithms
+- Word recognition is easier since a dictionary can be used to support choices.
+
+#### Whiteboard-specific Text Detection/Recognition
+
+- Only on-line whiteboard detection research/algorithms were available.
+- Whiteboard text detection/recognition seems to be handled as an on-line problem when approached.
+- Examples include: Camera-pen systems, smart-board research, and smart-pen research.
