@@ -244,3 +244,8 @@ Best results were achieved from method #3, further investigation with a larger v
 - Both licenses are fairly similar in that they are quite permissive, however, the Apache license has a couple of extra clauses:
     - Your product cannot present that it is endorsed by the Apache Foundation in any way.
     - Any modifications of the original source code must be explicitly noted. All modifications must be preserved in the source.
+
+### Next Week
+
+- Look into auto-optimization of arguments. Is this possible?
+- Text detection + OCR with text file output. Output on 10-15 images.
