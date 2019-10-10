@@ -195,3 +195,52 @@ Best results were achieved from method #3, further investigation with a larger v
 - If I have time, evaluate OCR algorithm
 - Research underlying technology
 - Look into licensing a bit more - specifically Apache
+
+## Oct 10
+
+### Progress
+
+#### Off-line Whiteboard Detection in Existing Literature
+
+- Plötz, Thomas, Christian Thurau, and Gernot A. Fink. "Camera-based whiteboard reading: New approaches to a challenging task." International Conference on Frontiers in Handwriting Recognition. 2008.
+    - First comprehensive research done on end-to-end whiteboard notes to text
+    - Uses Hidden Markov Models for text detection
+    - Assumes text is well-formed and uses a more simplistic text detection method
+    - Good info on normalization and extraction of whiteboard images
+
+- Dickson, Paul E., et al. "Improved Whiteboard Processing for Lecture Capture." 2016 IEEE International Symposium on Multimedia (ISM). IEEE, 2016.
+    - Fairly up-to-date study that looks into detecting whiteboard notes from a video feed
+    - Attempts to remove lecturers and other moving objects through averaging techniques
+    - Has novel methods for improving contrast and ledgibility for whiteboard notes
+
+- Jia, Wei, et al. "A CNN-based approach to detecting text from images of whiteboards and handwritten notes." 2018 16th International Conference on Frontiers in Handwriting Recognition (ICFHR). IEEE, 2018.
+    - One of the most modern studies that involved whiteboards in some way
+    - Discuss CNN usage in detecting text in handwritten notes and on whiteboards
+    - Strategy involves connected component analysis
+    - Outperformed by other similar frameworks in text detection
+
+- Kota, Bhargava Urala, et al. "Generalized framework for summarization of fixed-camera lecture videos by detecting and binarizing handwritten content." International Journal on Document Analysis and Recognition (IJDAR) (2019): 1-13.
+    - Contains a summary postulating different theories and best practices for whiteboard text extraction, detection, and recognition.
+
+#### CRAFT Progress
+
+- Argument Usage
+    - **text_threshold:** Certainty that something is a letter. Ranges from 0 to 1.0 with 1.0 being 100% certain. Default threshold is 0.7.
+    - **link_threshold:** the amount of distance between characters to be considered a single word. Value ranges from 0 to 1.0. Defaults to 0.4.
+    - **low_text:** The amount of space padding letters, words, and lines within a bounding box. The larger the values, the smaller the space. Raising this value can have an effect on the link threshold.
+
+- Found disparities between the web demo and the text detection model provided. IP protection, possibly? Could be tweaking arguments with another model?
+
+- Got linking to work correctly. Lines of text can now be identified, however, a per word basis might be better. Test with Clova OCR on performance?
+
+#### CRAFT Detection Model
+
+- Utilizes batch normalization (like VVG-16, a CNN for detection) and skips the decoding step to generate two output channels which are utilized as score-maps.
+- Two channels are region score and affinity score. Both are 2D, isotropic gaussian maps. The region score maps where characters are likely while the affinity score maps how likely two characters are to be part of the same line of text.
+- Another small network is trained and used to refine the concatenation of the affinity score and the region score. This new score is used like normal for the rest of the CRAFT network, however, this enables better linking when attempting to detect lines of text.
+
+#### Licensing - Apache 2.0 vs. MIT
+
+- Both licenses are fairly similar in that they are quite permissive, however, the Apache license has a couple of extra clauses:
+    - Your product cannot present that it is endorsed by the Apache Foundation in any way.
+    - Any modifications of the original source code must be explicitly noted. All modifications must be preserved in the source.
