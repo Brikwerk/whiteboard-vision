@@ -250,7 +250,7 @@ Best results were achieved from method #3, further investigation with a larger v
 - Look into auto-optimization of arguments. Is this possible?
 - Text detection + OCR with text file output. Output on 10-15 images.
 
-## Oct 10
+## Oct 17
 
 ### Progress
 
@@ -273,3 +273,7 @@ Best results were achieved from method #3, further investigation with a larger v
 #### Ideas for the Project
 
 - Could possibly integrate spellcheck into the recognition stage to make up for poor performance in recognition algorithm (being a few chars off).
+
+### Next Week
+
+- Continue implementation of text output for the project
