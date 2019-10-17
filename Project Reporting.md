@@ -249,3 +249,27 @@ Best results were achieved from method #3, further investigation with a larger v
 
 - Look into auto-optimization of arguments. Is this possible?
 - Text detection + OCR with text file output. Output on 10-15 images.
+
+## Oct 10
+
+### Progress
+
+#### Text Detection & OCR
+
+- Created project infrastructure
+- Added both the detection and recognition framework into the project
+- Reconfigured the detection framework for usage within the project as an API
+- Bounding boxes are being output per passed image path
+- Should reconfigure to take in loaded image so we're not loading the image twice
+- Currently stuck at extracting text from the image relative to the angle of the bounding boxes
+- The detection framework still needs to be configured for usage within the project (exposing an API)
+
+#### Auto-Optimization of Arguments
+
+- Looked into more and our parameters seem more intuition/situation based
+- I was thinking of hyper-parameter tuning last week. This refers to tuning a parameter such as k in the k-nearest neighbors algorithm
+- Not super applicable to our project. Can probably set ours based off of intuition.
+
+#### Ideas for the Project
+
+- Could possibly integrate spellcheck into the recognition stage to make up for poor performance in recognition algorithm (being a few chars off).
