@@ -110,3 +110,5 @@ venv.bak/
 /results
 weights/
 /.vscode
+bbox_results
+output.txt
