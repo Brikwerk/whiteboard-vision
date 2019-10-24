@@ -226,6 +226,21 @@ class RawDataset(Dataset):
 
         return (img, self.image_path_list[index])
 
+# MODIFICATION FROM ORIGINAL CODE
+# MODIFICATION BY: Reece Walsh
+class ImageDataset(Dataset):
+
+    def __init__(self, images):
+        self.images = images
+        self.nSamples = len(self.images)
+
+    def __len__(self):
+        return self.nSamples
+
+    def __getitem__(self, index):
+        image = self.images[index]
+        return (image, "")
+# END OF MODICIATION
 
 class ResizeNormalize(object):
 
