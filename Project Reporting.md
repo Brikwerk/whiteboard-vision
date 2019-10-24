@@ -277,3 +277,14 @@ Best results were achieved from method #3, further investigation with a larger v
 ### Next Week
 
 - Continue implementation of text output for the project
+
+## Oct 24
+
+### Progress
+
+#### Implementation of Text Output
+
+- Text output is now function
+- Bounding box cropping function is now functioning
+- The recognition algorithm does not include orientation data, thus, bounding box cropping only attempts to align images to the nearest straight line.
+- Image recognition is separate due to GPU memory bugs that need to be worked through
