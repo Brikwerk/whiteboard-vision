@@ -14,7 +14,7 @@ import numpy as np
 from PIL import Image
 
 from .clova_detection.api import detect_text
-from .clova_recognition.api import recognize_text
+#from .clova_recognition.api import recognize_text
 from . import imgutil
 
 def process_images(images_path):
