@@ -288,3 +288,10 @@ Best results were achieved from method #3, further investigation with a larger v
 - Bounding box cropping function is now functioning
 - The recognition algorithm does not include orientation data, thus, bounding box cropping only attempts to align images to the nearest straight line.
 - Image recognition is separate due to GPU memory bugs that need to be worked through
+
+#### Next Week
+
+- Correcting for orientation is the next big step
+- If orientation is fixed quickly, try with non-ideal whiteboard
+    - Handwriting vs printing on whiteboard. Results?
+    - Glare, poor lighting, etc -- To be handled later
