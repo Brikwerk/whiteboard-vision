@@ -126,6 +126,6 @@ def detect_text(image_path, use_refiner=False):
 
     bboxes, polys, score_text = run_net(net, image, refine_net=refine_net)
 
-    #file_utils.saveResult(image_path, image[:,:,::-1], polys, dirname="./results/")
+    file_utils.saveResult(image_path, image[:,:,::-1], polys, dirname="./results/")
 
     return bboxes, polys
