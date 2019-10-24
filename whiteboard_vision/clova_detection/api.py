@@ -124,7 +124,10 @@ def detect_text(image_path, use_refiner=False):
     # load data
     image = imgproc.loadImage(image_path)
 
-    bboxes, polys, score_text = run_net(net, image, refine_net=refine_net)
+    if cuda:
+        bboxes, polys, score_text = run_net(net, image, refine_net=refine_net)
+    else:
+        bboxes, polys, score_text = run_net(net, image, refine_net=refine_net, cuda=False)
 
     file_utils.saveResult(image_path, image[:,:,::-1], polys, dirname="./results/")
 
