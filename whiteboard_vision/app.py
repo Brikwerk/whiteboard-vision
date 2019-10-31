@@ -14,7 +14,7 @@ import numpy as np
 from PIL import Image
 
 from .clova_detection.api import detect_text
-#from .clova_recognition.api import recognize_text
+from .clova_recognition.api import recognize_text
 from . import imgutil
 
 def process_images(images_path):
@@ -27,16 +27,21 @@ def process_images(images_path):
     
     bboxes = []
     for image_path in files:
+        print(image_path)
         boxes, polys = detect_text(image_path)
         image = cv2.imread(image_path)
-
+        
         count = 0
+        bboxes = []
         for box in boxes:
             bbox_image = imgutil.crop_rectangle(box, image)
+            bbox_image_pillow = Image.fromarray(cv2.cvtColor(bbox_image, cv2.COLOR_BGR2RGB))
+            bboxes.append(bbox_image_pillow)
             bbox_image_path = "./bbox_results/%s_%s.jpg" % (os.path.basename(image_path), count)
             count = count + 1
             if not os.path.exists("./bbox_results"):
                 os.makedirs("./bbox_results")
             cv2.imwrite(bbox_image_path, bbox_image)
+        recognize_text(bboxes)
     
     return images_path
