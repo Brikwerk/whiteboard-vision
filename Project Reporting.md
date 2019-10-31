@@ -295,3 +295,18 @@ Best results were achieved from method #3, further investigation with a larger v
 - If orientation is fixed quickly, try with non-ideal whiteboard
     - Handwriting vs printing on whiteboard. Results?
     - Glare, poor lighting, etc -- To be handled later
+
+## Oct 31 👻
+
+### Progress
+
+#### Orientation Progress
+
+- CRAFT detector doesn't contain any logic on orientation. Bounding boxes are simply drawn as a minimum rectangle around the linked characters.
+- Idea for orientation detection solution:
+    - Filter for rectangles taller than a certain criteria. English words are written vertically, thus, tall rectangles are almost certainly sideways text.
+    - This still leaves 3 types of words:
+        1. Right-side up words
+        2. Upside-down words
+        3. Words at another angle. This could be due to a bounding box not lining up with the text or ending up as a square.
+    - The text recognition stage outputs a confidence metric per word. This could utilized to pick the optimal word by flipping the word and choosing the word with the highest confidence metric. To optimize for performance, a threshold could be set for the confidence to begin rotating.
