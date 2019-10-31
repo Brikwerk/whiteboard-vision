@@ -230,16 +230,20 @@ class RawDataset(Dataset):
 # MODIFICATION BY: Reece Walsh
 class ImageDataset(Dataset):
 
-    def __init__(self, images):
+    def __init__(self, images, rgb):
         self.images = images
         self.nSamples = len(self.images)
+        self.rgb = rgb
 
     def __len__(self):
         return self.nSamples
 
     def __getitem__(self, index):
-        image = self.images[index]
-        return (image, "")
+        if self.rgb:
+            image = self.images[index].convert('RGB')
+        else:
+            image = self.images[index].convert('L')
+        return image
 # END OF MODICIATION
 
 class ResizeNormalize(object):
@@ -274,6 +278,46 @@ class NormalizePAD(object):
             Pad_img[:, :, w:] = img[:, :, w - 1].unsqueeze(2).expand(c, h, self.max_size[2] - w)
 
         return Pad_img
+
+# MODIFICATION FROM ORIGINAL CODE
+# MODIFICATION BY: Reece Walsh
+class AlignCollateNoLabels(object):
+
+    def __init__(self, imgH=32, imgW=100, keep_ratio_with_pad=False):
+        self.imgH = imgH
+        self.imgW = imgW
+        self.keep_ratio_with_pad = keep_ratio_with_pad
+
+    def __call__(self, batch):
+        batch = filter(lambda x: x is not None, batch)
+        images = batch
+
+        if self.keep_ratio_with_pad:  # same concept with 'Rosetta' paper
+            resized_max_w = self.imgW
+            transform = NormalizePAD((1, self.imgH, resized_max_w))
+
+            resized_images = []
+            for image in images:
+                w, h = image.size
+                ratio = w / float(h)
+                if math.ceil(self.imgH * ratio) > self.imgW:
+                    resized_w = self.imgW
+                else:
+                    resized_w = math.ceil(self.imgH * ratio)
+
+                resized_image = image.resize((resized_w, self.imgH), Image.BICUBIC)
+                resized_images.append(transform(resized_image))
+                # resized_image.save('./image_test/%d_test.jpg' % w)
+
+            image_tensors = torch.cat([t.unsqueeze(0) for t in resized_images], 0)
+
+        else:
+            transform = ResizeNormalize((self.imgW, self.imgH))
+            image_tensors = [transform(image) for image in images]
+            image_tensors = torch.cat([t.unsqueeze(0) for t in image_tensors], 0)
+
+        return image_tensors
+# END OF MODICIATION
 
 
 class AlignCollate(object):
