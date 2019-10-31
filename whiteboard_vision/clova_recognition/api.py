@@ -8,7 +8,7 @@ import torch.backends.cudnn as cudnn
 import torch.utils.data
 
 from .utils import CTCLabelConverter, AttnLabelConverter
-from .dataset import RawDataset, AlignCollate, ImageDataset
+from .dataset import RawDataset, AlignCollateNoLabels, ImageDataset
 from .model import Model
 device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 
@@ -85,13 +85,13 @@ def recognize_text(images,
     parser = argparse.ArgumentParser()
     parser.add_argument('--images', help='path to image_folder which contains text images')
     parser.add_argument('--workers', type=int, help='number of data loading workers', default=4)
-    parser.add_argument('--batch_size', type=int, default=64, help='input batch size')
+    parser.add_argument('--batch_size', type=int, default=192, help='input batch size')
     parser.add_argument('--saved_model', help="path to saved_model to evaluation")
     """ Data processing """
     parser.add_argument('--batch_max_length', type=int, default=25, help='maximum-label-length')
     parser.add_argument('--imgH', type=int, default=32, help='the height of the input image')
     parser.add_argument('--imgW', type=int, default=100, help='the width of the input image')
-    parser.add_argument('--rgb', action='store_true', help='use rgb input')
+    parser.add_argument('--rgb', action='store_true', help='use rgb input', default=False)
     parser.add_argument('--character', type=str, default='0123456789abcdefghijklmnopqrstuvwxyz', help='character label')
     parser.add_argument('--sensitive', action='store_true', help='for sensitive character mode')
     parser.add_argument('--PAD', action='store_true', help='whether to keep ratio then pad for image resize')
@@ -126,20 +126,23 @@ def recognize_text(images,
 
     # load model
     print('loading pretrained model from %s' % opt.saved_model)
-    model.load_state_dict(torch.load(saved_model))
+    if torch.cuda.is_available():
+        model.load_state_dict(torch.load(opt.saved_model))
+    else:
+        model.load_state_dict(torch.load(opt.saved_model, map_location=torch.device('cpu')))
 
-    AlignCollate_demo = AlignCollate(imgH=opt.imgH, imgW=opt.imgW, keep_ratio_with_pad=opt.PAD)
-    demo_data = RawDataset(root="/test_images", opt=opt)
-    demo_loader = torch.utils.data.DataLoader(
-        demo_data, batch_size=opt.batch_size,
+    AlignCollate_images = AlignCollateNoLabels(imgH=opt.imgH, imgW=opt.imgW, keep_ratio_with_pad=opt.PAD)
+    image_data = ImageDataset(images, opt.rgb)
+    image_loader = torch.utils.data.DataLoader(
+        image_data, batch_size=opt.batch_size,
         shuffle=False,
         num_workers=int(opt.workers),
-        collate_fn=AlignCollate_demo, pin_memory=True)
+        collate_fn=AlignCollate_images, pin_memory=True)
 
     # predict
     model.eval()
     with torch.no_grad():
-        for image_tensors, image_path_list in demo_loader:
+        for image_tensors in image_loader:
             batch_size = image_tensors.size(0)
             image = image_tensors.to(device)
             # For max length prediction
@@ -162,8 +165,11 @@ def recognize_text(images,
                 _, preds_index = preds.max(2)
                 preds_str = converter.decode(preds_index, length_for_pred)
 
+            print('-' * 80)
+            print('image_path\tpredicted_labels')
+            print('-' * 80)
             for pred in preds_str:
                 if 'Attn' in opt.Prediction:
                     pred = pred[:pred.find('[s]')]  # prune after "end of sentence" token ([s])
 
-                print(f'{img_name}\t{pred}')
+                print(f'{pred}')
