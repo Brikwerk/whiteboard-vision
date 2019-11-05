@@ -31,6 +31,7 @@ This project aims to detect and transcribe text written on a whiteboard in a cla
   - To aid with this, erasure of the whiteboard could be detected to aid in context, slide transition, etc.
 - Client (and possibly server?) that facilitates processing video of a whiteboard lecture and outputs an interactive lecture. Eg: Virtual whiteboard that updates with highlightable text in realtime.
 - Diagram Detection and Extraction
+- Sentence auto-correction for context and dictionary
 
 ## Challenges
 
