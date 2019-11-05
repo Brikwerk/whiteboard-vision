@@ -289,7 +289,7 @@ Best results were achieved from method #3, further investigation with a larger v
 - The recognition algorithm does not include orientation data, thus, bounding box cropping only attempts to align images to the nearest straight line.
 - Image recognition is separate due to GPU memory bugs that need to be worked through
 
-#### Next Week
+### Next Week
 
 - Correcting for orientation is the next big step
 - If orientation is fixed quickly, try with non-ideal whiteboard
@@ -310,3 +310,10 @@ Best results were achieved from method #3, further investigation with a larger v
         2. Upside-down words
         3. Words at another angle. This could be due to a bounding box not lining up with the text or ending up as a square.
     - The text recognition stage outputs a confidence metric per word. This could utilized to pick the optimal word by flipping the word and choosing the word with the highest confidence metric. To optimize for performance, a threshold could be set for the confidence to begin rotating.
+
+### Next Week
+
+- Try snapping to different confidence scores
+- Next try recognizing with bad handwriting
+- Is there a threshold between bad handwriting and unrecognized angles?
+- Sentence gathering?
