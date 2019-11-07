@@ -317,3 +317,22 @@ Best results were achieved from method #3, further investigation with a larger v
 - Next try recognizing with bad handwriting
 - Is there a threshold between bad handwriting and unrecognized angles?
 - Sentence gathering?
+
+## Nov 6
+
+### Progress
+
+#### Orientation Progress Round 2
+
+- Used a threshold on the recognizer's confidence score to determine orientation
+    - Before recognition, if the word failed a ratio test (width/height < 0.65) then the word is rotated 90 degrees.
+    - The word is then recognized and a low score (>70%) dictated further orientation comparisons.
+    - If the word was rotated before, we rotated 180 degrees and recompute. The maximum score result is taken.
+    - If we didn't rotate the word previously, we compare scores on the other 3 orientations and take the max.
+- This technique worked fairly well with the extreme rotations on the perfect example
+    - Approximately 70% success rate now on extreme rotations
+
+#### Performance Gains and Output Formatting
+
+- Converted models to load at the beginning of a run, saving time and resources
+- Added new visual output format (bounding boxes + predicted words + scores)
