@@ -51,3 +51,24 @@ def crop_rectangle(bbox, image):
     rotation_matrix = cv2.getPerspectiveTransform(source_points, dest_points)
     rotated_image = cv2.warpPerspective(image, rotation_matrix, (width, height))
     return rotated_image
+
+def draw_results(bbox, text, score, image):
+    # Drawing bounding box
+    colour_green = (38,255,14)
+    colour_black = (0,0,0)
+    contour = np.array(bbox)
+    x, y, w, h = cv2.boundingRect(contour)
+    image = cv2.rectangle(image, (x, y), (x + w, y + h), colour_green, 5)
+
+    # Drawing text background and text
+    font_scale = 1.2
+    font = cv2.FONT_HERSHEY_SIMPLEX
+    text = (text + " " + str(round(score*100,2)) + "%")
+    (text_width, text_height) = cv2.getTextSize(text, font, fontScale=font_scale, thickness=4)[0]
+
+    box_coords = ((x-5, y), (x + text_width + 5, y - (text_height + 35)))
+    cv2.rectangle(image, box_coords[0], box_coords[1], colour_green, cv2.FILLED)
+
+    cv2.putText(image, text, (x, y-20), font, fontScale=font_scale, color=colour_black, thickness=4)
+
+    return image
