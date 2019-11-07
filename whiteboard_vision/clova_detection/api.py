@@ -28,6 +28,7 @@ import zipfile
 from .craft import CRAFT
 
 from collections import OrderedDict
+
 def copyStateDict(state_dict):
     if list(state_dict.keys())[0].startswith("module"):
         start_idx = 1
@@ -38,6 +39,7 @@ def copyStateDict(state_dict):
         name = ".".join(k.split(".")[start_idx:])
         new_state_dict[name] = v
     return new_state_dict
+
 
 def run_net(net, image, text_threshold=0.7, link_threshold=0.4, low_text=0.4,
 cuda=True, poly=False, refine_net=None, canvas_size=1280, mag_ratio=1.5):
@@ -83,52 +85,58 @@ cuda=True, poly=False, refine_net=None, canvas_size=1280, mag_ratio=1.5):
     return boxes, polys, ret_score_text
 
 
+class CraftDetection:
+    def __init__(self, use_refiner=False, debug=False):
+        self.debug = debug
+        # load net
+        self.net = CRAFT()     # initialize
+        self.cuda = torch.cuda.is_available()
 
-def detect_text(image_path, use_refiner=False):
-    # load net
-    net = CRAFT()     # initialize
-    cuda = torch.cuda.is_available()
-
-    # Loading weights from pre-trained models
-    model_path = os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__)),
-        "weights/craft_mlt_25k.pth"))
-    if cuda:
-        net.load_state_dict(copyStateDict(torch.load(model_path)))
-    else:
-        net.load_state_dict(copyStateDict(torch.load(model_path, map_location='cpu')))
-
-    if cuda:
-        net = net.cuda()
-        net = torch.nn.DataParallel(net)
-        cudnn.benchmark = False
-
-    net.eval()
-
-    # LinkRefiner
-    refine_net = None
-    if use_refiner:
-        from .refinenet import RefineNet
-        refine_net = RefineNet()
-        # Loading weights from pre-trained refiner
-        refiner_path = os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__)),
-            "weights/craft_refiner_CTW1500.pth"))
-        if cuda:
-            refine_net.load_state_dict(copyStateDict(torch.load(refiner_path)))
-            refine_net = refine_net.cuda()
-            refine_net = torch.nn.DataParallel(refine_net)
+        # Loading weights from pre-trained models
+        model_path = os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__)),
+            "weights/craft_mlt_25k.pth"))
+        print("Loading Craft Detection Model from %s" % model_path)
+        if self.cuda:
+            self.net.load_state_dict(copyStateDict(torch.load(model_path)))
         else:
-            refine_net.load_state_dict(copyStateDict(torch.load(refiner_path, map_location='cpu')))
+            self.net.load_state_dict(copyStateDict(torch.load(model_path, map_location='cpu')))
 
-        refine_net.eval()
+        if self.cuda:
+            net = net.cuda()
+            net = torch.nn.DataParallel(net)
+            cudnn.benchmark = False
 
-    # load data
-    image = imgproc.loadImage(image_path)
+        self.net.eval()
 
-    if cuda:
-        bboxes, polys, score_text = run_net(net, image, refine_net=refine_net)
-    else:
-        bboxes, polys, score_text = run_net(net, image, refine_net=refine_net, cuda=False)
+        # LinkRefiner
+        self.refine_net = None
+        if use_refiner:
+            from .refinenet import RefineNet
+            self.refine_net = RefineNet()
+            # Loading weights from pre-trained refiner
+            refiner_path = os.path.abspath(os.path.join(os.path.dirname(os.path.realpath(__file__)),
+                "weights/craft_refiner_CTW1500.pth"))
+            if cuda:
+                self.refine_net.load_state_dict(copyStateDict(torch.load(refiner_path)))
+                self.refine_net = self.refine_net.cuda()
+                self.refine_net = torch.nn.DataParallel(self.refine_net)
+            else:
+                self.refine_net.load_state_dict(copyStateDict(torch.load(refiner_path, map_location='cpu')))
 
-    file_utils.saveResult(image_path, image[:,:,::-1], polys, dirname="./results/")
+            self.refine_net.eval()
 
-    return bboxes, polys
+
+    def detect_text(self, image_path):
+        # load data
+        image = imgproc.loadImage(image_path)
+
+        if self.cuda:
+            bboxes, polys, score_text = run_net(self.net, image, refine_net=self.refine_net)
+        else:
+            bboxes, polys, score_text = run_net(self.net, image, refine_net=self.refine_net, cuda=False)
+        
+        if self.debug:
+            # Saving drawn bounding boxes
+            file_utils.saveResult(image_path, image[:,:,::-1], polys, dirname="./results/")
+
+        return bboxes, polys
