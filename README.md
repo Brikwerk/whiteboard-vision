@@ -2,7 +2,7 @@
 
 ## Description
 
-This project aims to detect and transcribe text written on a whiteboard in a classroom environment.
+This project aims to detect and transcribe text written on a whiteboard in a classroom environment. Mathematical equations and diagrams will not be targetted as an area for transcription.
 
 ## Roadmap
 
