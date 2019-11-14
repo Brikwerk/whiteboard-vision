@@ -336,3 +336,12 @@ Best results were achieved from method #3, further investigation with a larger v
 
 - Converted models to load at the beginning of a run, saving time and resources
 - Added new visual output format (bounding boxes + predicted words + scores)
+
+### Next Week
+
+- Identify whiteboard in scene
+    - Apply text detection - Largest grouping?
+    - Contours library in OpenCV
+    - License Plate detection - colour and text?
+- Further research whiteboard detection
+- Assume whiteboard is somewhere in the middle of the camera. Cannot be a perfect rectangle.
