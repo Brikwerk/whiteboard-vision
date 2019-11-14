@@ -84,6 +84,11 @@ def process_images(images_path, debug=False):
                     # Going through three other orientations and taking best score
                     for i in range(0, 3):
                         retry_image = bbox_image_pillow.rotate(90*i, expand=True)
+                        # If we have an image that has tall word,
+                        # Skip it as it's likely the wrong orientation
+                        retry_width, retry_height = retry_image.size
+                        if retry_width/retry_height < 0.66:
+                            continue
                         retry = recognition.recognize_text([retry_image])
                         # If we get a higher confidence score
                         if retry[0][1] > results[0][1]:
