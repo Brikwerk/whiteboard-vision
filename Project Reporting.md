@@ -370,3 +370,8 @@ Best results were achieved from method #3, further investigation with a larger v
     - If a portion of the board is out of the image, chances are very low that it will be detected.
 - Alternative strategies I could investigate:
     - Hough transformation instead of filtering contours. This was mentioned in one paper and could potentially be more robust? Could also be slower.
+
+### Next Week
+
+- Building pipeline for end to end detection
+- Output text behind whiteboard image
