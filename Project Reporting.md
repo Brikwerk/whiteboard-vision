@@ -345,3 +345,28 @@ Best results were achieved from method #3, further investigation with a larger v
     - License Plate detection - colour and text?
 - Further research whiteboard detection
 - Assume whiteboard is somewhere in the middle of the camera. Cannot be a perfect rectangle.
+
+## Nov 14
+
+### Progress
+
+### Whiteboard Detection Progress
+
+- Researched whiteboard detection
+    - Most research centered around application of page detection techniques (a similar problem domain)
+    - Researched page detection techniques and attempted to apply methodology to the whiteboard detection algorithm
+
+- Detection Algorithm so far:
+    - Convert to grayscale image
+    - Blur image with a bilateral filter to preserve edges and remove noise
+    - Threshold the image using adaptive thresholding in an attempt to reduce the effect of glare on the whiteboard
+    - Get the edges of the thresholded image with the Canny edge detector
+    - Dilate the edges to close any small gaps in the contour
+    - Use OpenCV's *findContours* function on the dilated image
+    - Sort the contours by largest area and take the first 20
+    - Filter the contours further by approximating a polygon with 1% error, looking for 4 corners on the polygon, and an area of larger than 5% of the image's total area
+- Algorithm works fairly well
+    - Has a bit of trouble with glare on a corner resulting in a jitter of the selection. This can be overcome by averaging the position, possibly.
+    - If a portion of the board is out of the image, chances are very low that it will be detected.
+- Alternative strategies I could investigate:
+    - Hough transformation instead of filtering contours. This was mentioned in one paper and could potentially be more robust? Could also be slower.
