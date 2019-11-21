@@ -350,7 +350,7 @@ Best results were achieved from method #3, further investigation with a larger v
 
 ### Progress
 
-### Whiteboard Detection Progress
+#### Whiteboard Detection Progress
 
 - Researched whiteboard detection
     - Most research centered around application of page detection techniques (a similar problem domain)
@@ -375,3 +375,25 @@ Best results were achieved from method #3, further investigation with a larger v
 
 - Building pipeline for end to end detection
 - Output text behind whiteboard image
+
+## Nov 21
+
+### Progress
+
+#### Pipeline Progress
+
+- Attempted to implement whiteboard detection into the existing pipeline.
+- Higher resolution exposed problems with the whiteboard detection algorithm.
+    - Multiple "whiteboards" were being detected for a single "whiteboard" image.
+    - Increasing blur helps, however, this is a crude solution
+- Perspective distortion cropping also needs further work. Algorithm created for cropping bounding boxes needs tweaking still to apply to the whiteboard.
+- Went back and continued making adjustments for robustness within the whiteboard detection algorithm
+
+#### Output Progress
+
+- Began experimenting with different formats and processes
+- Most promising method:
+    - Iterating over each text bounding box
+    - Inpainting with OpenCV's inpainting algorithm
+    - Once done, insert inpainted image into a PDF
+    - place text on top
