@@ -7,6 +7,7 @@ MIT License
 # -*- coding: utf-8 -*-
 import sys
 import os
+import uuid
 
 import torch
 import torch.nn as nn
@@ -102,8 +103,8 @@ class CraftDetection:
             self.net.load_state_dict(copyStateDict(torch.load(model_path, map_location='cpu')))
 
         if self.cuda:
-            net = net.cuda()
-            net = torch.nn.DataParallel(net)
+            self.net = self.net.cuda()
+            self.net = torch.nn.DataParallel(self.net)
             cudnn.benchmark = False
 
         self.net.eval()
@@ -126,10 +127,7 @@ class CraftDetection:
             self.refine_net.eval()
 
 
-    def detect_text(self, image_path):
-        # load data
-        image = imgproc.loadImage(image_path)
-
+    def detect_text(self, image):
         if self.cuda:
             bboxes, polys, score_text = run_net(self.net, image, refine_net=self.refine_net)
         else:
@@ -137,6 +135,7 @@ class CraftDetection:
         
         if self.debug:
             # Saving drawn bounding boxes
+            image_path = "results_" + str(uuid.uuid4())[:4] + ".png"
             file_utils.saveResult(image_path, image[:,:,::-1], polys, dirname="./results/")
 
         return bboxes, polys
