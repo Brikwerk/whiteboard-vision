@@ -403,3 +403,13 @@ Best results were achieved from method #3, further investigation with a larger v
 - Refining pipeline
 - After that, text on image
 - After that, investigate UI design
+
+## Nov 28
+
+### Progress
+
+#### Pipeline Progress
+
+- Pipeline now in a fairly complete state
+- Whiteboard detection fully tweaked and working with closeness filtering
+- Warp correction added for detected whiteboard
