@@ -397,3 +397,9 @@ Best results were achieved from method #3, further investigation with a larger v
     - Inpainting with OpenCV's inpainting algorithm
     - Once done, insert inpainted image into a PDF
     - place text on top
+
+### Next Week
+
+- Refining pipeline
+- After that, text on image
+- After that, investigate UI design
