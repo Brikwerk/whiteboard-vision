@@ -17,6 +17,7 @@ from .clova_detection.api import CraftDetection
 from .clova_recognition.api import CraftRecognition
 from . import imgutil
 
+
 def process_images(images_path, debug=False):
     # Loading models
     detection = CraftDetection(debug=debug)
@@ -38,9 +39,14 @@ def process_images(images_path, debug=False):
     bboxes = []
     for image_path in files:
         print("Getting text in image %s" % image_path)
-        # Detecting text and getting bounding boxes
-        boxes, polys = detection.detect_text(image_path)
         image = cv2.imread(image_path)
+        wb_bboxes = imgutil.detect_whiteboard(image)
+        warped_images = []
+        for bbox in wb_bboxes:
+            warped_images.append(imgutil.four_point_transform(image, bbox))
+        # Detecting text and getting bounding boxes from first whiteboard
+        image = warped_images[0]
+        boxes, polys = detection.detect_text(np.array(image))
         
         count = 0
         bboxes = []
@@ -95,6 +101,8 @@ def process_images(images_path, debug=False):
                             results = retry
             
             if debug:
+                with open("output.txt", "a") as file:
+                    file.write("Text in BBox Image %s: %s\n" % (bbox_image_path, results[0][0]))
                 results_image = imgutil.draw_results(box, results[0][0], float(results[0][1]), results_image)
         
         if debug:
