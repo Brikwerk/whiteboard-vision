@@ -413,3 +413,12 @@ Best results were achieved from method #3, further investigation with a larger v
 - Pipeline now in a fairly complete state
 - Whiteboard detection fully tweaked and working with closeness filtering
 - Warp correction added for detected whiteboard
+
+### Next Week
+
+- Gather test set of data (50 images) and text on
+    - Show results
+- Detect when to take pictures?
+    - Choosing the right images
+    - Once there is enough change in the whiteboard, take photo, analyze
+- If I have time, web interface
