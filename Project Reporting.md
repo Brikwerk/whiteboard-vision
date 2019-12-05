@@ -422,3 +422,27 @@ Best results were achieved from method #3, further investigation with a larger v
     - Choosing the right images
     - Once there is enough change in the whiteboard, take photo, analyze
 - If I have time, web interface
+
+## Dec 5
+
+### Progress
+
+#### Dataset Creation and Benchmark
+
+- Gathered image dataset and benchmarked
+- Found that whiteboard detection algorithm was overfit to my room. Very few whiteboards were detected.
+- Began investigating and found that thresholding was yielding poor results. Corners were not clear after thresholding.
+    - Investigating converting image to HSL and thresholding lightness, possibly?
+- Detection and recognition performed fairly well, however.
+    - Performed poorly on numbers, messy writing, and close/far apart letters
+
+### Application Progress
+
+- Started investigating converting the whiteboard detection to an application/server interface
+- Use as an API exposed server-side and have Flask or Django serve static website that submits images
+
+Alternatively...
+
+- Could build an iOS application?
+    - Vision techniques built in (rectangle finding)
+    - Possible translate model over (could be trouble)
