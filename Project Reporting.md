@@ -446,3 +446,11 @@ Alternatively...
 - Could build an iOS application?
     - Vision techniques built in (rectangle finding)
     - Possible translate model over (could be trouble)
+
+### Next Week
+
+- Deploy web server stuff
+- Look into whiteboard detection with detected text grouping
+- Use Youtube Videos to test
+- Schedule live test in January?
+- Live deploy server?
