@@ -8,7 +8,43 @@ Contains the main logic for processing images.
 from math import hypot
 
 import numpy as np
+import os
 import cv2
+
+
+def load_image_dir(images_dir):
+    """Loads all images from a folder
+    :param image_dir: The path to the images directory
+    """
+
+    # Getting all images with an acceptable extension under the given path
+    image_extensions = [".png", ".jpg", ".jpeg"]
+    dir_items = os.listdir(images_dir)
+    images = []
+    for item in dir_items:
+        item_path = os.path.join(images_dir, item)
+        if os.path.isfile(item_path):
+            extension = os.path.splitext(item_path)[1]
+            if extension in image_extensions:
+                images.append((cv2.imread(item_path), item_path))
+    
+    return images
+
+
+def load_image_paths(image_paths):
+    """Loads images from set paths
+    :param image_paths: A list of image paths
+    """
+
+    image_extensions = [".png", ".jpg", ".jpeg"]
+    images = []
+    for item_path in image_paths:
+        if os.path.isfile(item_path):
+            extension = os.path.splitext(item_path)[1]
+            if extension in image_extensions:
+                images.append((cv2.imread(item_path), item_path))
+    
+    return images
 
 
 def crop_rectangle(bbox, image):
@@ -77,7 +113,7 @@ def draw_results(bbox, text, score, image):
 
 
 def detect_whiteboard(image):
-    adjusted = brightness_contrast(image, brightness=-120, contrast=70)
+    adjusted = brightness_contrast(image, brightness=0, contrast=50)
     # Enhancement
     gray = cv2.cvtColor(adjusted, cv2.COLOR_BGR2GRAY)
 
