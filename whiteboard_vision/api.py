@@ -8,6 +8,7 @@ the text contained within the media.
 
 import os
 import glob
+import json
 
 import cv2
 import numpy as np
@@ -18,49 +19,37 @@ from .clova_recognition.api import CraftRecognition
 from . import imgutil
 
 
-def process_images(images_path, debug=False):
+def process_images(images, debug=False):
     # Loading models
     detection = CraftDetection(debug=debug)
     recognition = CraftRecognition()
-
-    # Getting all images with an acceptable extension under the given path
-    image_extensions = [".png", ".jpg", ".jpeg"]
-    dir_items = os.listdir(images_path)
-    files = []
-    for item in dir_items:
-        item_path = os.path.join(images_path, item)
-        if os.path.isfile(item_path):
-            extension = os.path.splitext(item_path)[1]
-            if extension in image_extensions:
-                files.append(item_path)
-    if len(files) == 0:
-        return files
     
-    bboxes = []
-    for image_path in files:
-        print("Getting text in image %s" % image_path)
-        image = cv2.imread(image_path)
-        wb_bboxes = imgutil.detect_whiteboard(image)
-        warped_images = []
-        for bbox in wb_bboxes:
-            warped_images.append(imgutil.four_point_transform(image, bbox))
-        # Detecting text and getting bounding boxes from first whiteboard
-        image = warped_images[0]
+    data = {}
+    for image, image_path in images:
+        image_name = os.path.basename(image_path)
+        data[image_name] = {}
+
+        # wb_bboxes = imgutil.detect_whiteboard(image)
+        # warped_images = []
+        # for bbox in wb_bboxes:
+        #     warped_images.append(imgutil.four_point_transform(image, bbox))
+        # # Detecting text and getting bounding boxes from first whiteboard
+        # if len(warped_images) > 0:
+        #     image = warped_images[0]
         boxes, polys = detection.detect_text(np.array(image))
         
         count = 0
-        bboxes = []
         results_image = image
         for box in boxes:
             bbox_image = imgutil.crop_rectangle(box, image)
             bbox_image_pillow = Image.fromarray(cv2.cvtColor(bbox_image, cv2.COLOR_BGR2RGB))
-            bboxes.append(bbox_image_pillow)
             bbox_image_path = "./bbox_results/%s_%s.jpg" % (os.path.basename(image_path), count)
             print("Working on Bounding Box %d" % count)
 
+            data[image_name][count] = {}
+
             if debug:
                 # Saving bounding boxes
-                count = count + 1
                 if not os.path.exists("./bbox_results"):
                     os.makedirs("./bbox_results")
                 cv2.imwrite(bbox_image_path, bbox_image)
@@ -100,10 +89,13 @@ def process_images(images_path, debug=False):
                         if retry[0][1] > results[0][1]:
                             results = retry
             
+            data[image_name][count]["text"] = str(results[0][0])
+            data[image_name][count]["bbox"] = box.tolist()
             if debug:
                 with open("output.txt", "a") as file:
                     file.write("Text in BBox Image %s: %s\n" % (bbox_image_path, results[0][0]))
                 results_image = imgutil.draw_results(box, results[0][0], float(results[0][1]), results_image)
+            count = count + 1
         
         if debug:
             results_image_path = "./results/%s_%s.jpg" % (os.path.basename(image_path), "results")
@@ -111,4 +103,4 @@ def process_images(images_path, debug=False):
                     os.makedirs("./results")
             cv2.imwrite(results_image_path, results_image)
     
-    return images_path
+    return json.dumps(data)
