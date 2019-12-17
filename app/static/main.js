@@ -85,6 +85,10 @@ function renderRecognitionData(data) {
             bbox = text_data["bbox"];
             roi = createROINode();
 
+            // Adding the ROI properties as attributes
+            roi.setAttribute("text", text)
+            roi.setAttribute("bbox", JSON.stringify(bbox))
+
             // Creating/rendering bbox
             // Coords are [width, height] (AKA (x, y))
             tlCoord = bbox[0];
@@ -93,7 +97,7 @@ function renderRecognitionData(data) {
             roiX = tlCoord[0]/width
             roiY = tlCoord[1]/height
             roiW = (brCoord[0]-tlCoord[0])/width;
-            roiH = (brCoord[1]-tlCoord[1])/width;
+            roiH = (brCoord[1]-tlCoord[1])/height;
 
             roi.style.left = roiX*100 + "%";
             roi.style.top = roiY*100 + "%";
