@@ -454,3 +454,18 @@ Alternatively...
 - Use Youtube Videos to test
 - Schedule live test in January?
 - Live deploy server?
+
+## Dec 10
+
+## Progress
+
+### Web Server Implementation
+
+- Implemented a Flask web server API and front end
+- Modularized the whiteboard detection/recognition APIs
+- Rejigged the demo python file
+
+### Next Week
+
+- Fix web server API implementation
+- Add client side rendering
