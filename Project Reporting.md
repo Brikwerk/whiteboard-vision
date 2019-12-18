@@ -457,9 +457,9 @@ Alternatively...
 
 ## Dec 10
 
-## Progress
+### Progress
 
-### Web Server Implementation
+#### Web Server Implementation
 
 - Implemented a Flask web server API and front end
 - Modularized the whiteboard detection/recognition APIs
@@ -469,3 +469,11 @@ Alternatively...
 
 - Fix web server API implementation
 - Add client side rendering
+
+## Dec 18
+
+### Progress
+
+- Fixed web server implementation
+- Added visualization for bounding boxes, text, and scores
+- Began working on the re-implementation of the whiteboard detection algorithm
