@@ -24,8 +24,23 @@ document.getElementById("image-upload").addEventListener("change", function() {
 
         // Loading image onto page
         reader.onload = function (evt) {
-            var imgTag = '<div class="uploaded-image" id="'+name+'"><img src="'+evt.target.result+'"/></div>';
-            document.getElementById("uploads-container").innerHTML += imgTag;
+            container = document.getElementById("uploads-container");
+
+            roiText = document.createElement("div");
+            roiText.id = name + "-text-display";
+            roiText.classList.add("roi-text");
+            container.appendChild(roiText)
+
+            uploadedImageContainer = document.createElement("div");
+            uploadedImageContainer.id = name
+            uploadedImageContainer.classList.add("uploaded-image");
+
+            uploadedImage = document.createElement("img");
+            uploadedImage.id = name + "-img";
+            uploadedImage.setAttribute("src", evt.target.result);
+            uploadedImageContainer.appendChild(uploadedImage);
+
+            container.appendChild(uploadedImageContainer);
         };
         reader.onerror = function (evt) {
           console.error("An error ocurred while reading the image",evt);
@@ -54,10 +69,15 @@ function makeRequest(method, apiEndpoint, data) {
         if (httpRequest.status != 200){
             console.error("Status: " + httpRequest.status);
         } else {
-            renderRecognitionData(JSON.parse(httpRequest.responseText));
+            console.log("Data Received:")
+            data = JSON.parse(httpRequest.responseText);
+            console.log(data)
+            renderRecognitionData(data);
         }
     };
     httpRequest.send(data);
+    console.log("Used method " + method + " on endpoint " + apiEndpoint + " with data:")
+    console.log(data)
 }
 
 
@@ -72,10 +92,13 @@ function CreateUUID() {
 function renderRecognitionData(data) {
     for (let key in data) {
         let container = document.getElementById(key);
-        let image = container.firstChild;
+        let image = document.getElementById(key + "-img");
         let width = image.naturalWidth;
         let height = image.naturalHeight;
         let imageData = data[key];
+
+        // Saving data to image element container
+        container.setAttribute("data", JSON.stringify(imageData))
 
         // Iterating over data for each recognized word
         // and rendering bbox + text
@@ -83,16 +106,22 @@ function renderRecognitionData(data) {
             text_data = imageData[text_key];
             text = text_data["text"];
             bbox = text_data["bbox"];
+            score = text_data["score"];
             roi = createROINode();
 
             // Adding the ROI properties as attributes
             roi.setAttribute("text", text)
             roi.setAttribute("bbox", JSON.stringify(bbox))
+            roi.setAttribute("score", score)
+
+            // Getting max and min coordinates
+            xCoords = [bbox[0][0], bbox[1][0], bbox[2][0], bbox[3][0]]
+            yCoords = [bbox[0][1], bbox[1][1], bbox[2][1], bbox[3][1]]
 
             // Creating/rendering bbox
             // Coords are [width, height] (AKA (x, y))
-            tlCoord = bbox[0];
-            brCoord = bbox[2];
+            tlCoord = [Math.min.apply(null, xCoords), Math.min.apply(null, yCoords)];
+            brCoord = [Math.max.apply(null, xCoords), Math.max.apply(null, yCoords)];;
             // Getting relative coords
             roiX = tlCoord[0]/width
             roiY = tlCoord[1]/height
@@ -113,5 +142,20 @@ function renderRecognitionData(data) {
 function createROINode() {
     roi = document.createElement("div");
     roi.classList.add("roi");
+
+    // Adding event listeners
+    roi.addEventListener("touchstart", bboxActive)
+    roi.addEventListener("mouseover", bboxActive)
+
     return roi
+}
+
+
+function bboxActive(event) {
+    roi = event.target
+    text = roi.getAttribute("text")
+    score = roi.getAttribute("score")
+    textContainer = document.getElementById(roi.parentElement.id + "-text-display")
+
+    textContainer.innerHTML = text + " (" + (parseFloat(score)*100).toFixed(2) + "%)"
 }
