@@ -477,3 +477,8 @@ Alternatively...
 - Fixed web server implementation
 - Added visualization for bounding boxes, text, and scores
 - Began working on the re-implementation of the whiteboard detection algorithm
+
+### Next Week
+
+- Have manual whiteboard detection
+- Include video input and fix UI
