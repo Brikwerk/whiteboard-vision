@@ -90,6 +90,7 @@ def process_images(images, debug=False):
                             results = retry
             
             data[image_name][count]["text"] = str(results[0][0])
+            data[image_name][count]["score"] = float(results[0][1])
             data[image_name][count]["bbox"] = box.tolist()
             if debug:
                 with open("output.txt", "a") as file:
