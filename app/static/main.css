@@ -28,3 +28,18 @@
     display: block;
     background-color: rgba(0, 255, 0, 0.5);
 }
+
+.roi:active, .roi:hover {
+    background-color: rgba(255, 0, 0, 0.5);
+}
+
+.roi-text {
+    width: 80%;
+    height: 1.5rem;
+    display: block;
+    margin: auto;
+    font-size: 1.5rem;
+    text-align: center;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
