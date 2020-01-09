@@ -482,3 +482,11 @@ Alternatively...
 
 - Have manual whiteboard detection
 - Include video input and fix UI
+
+## Jan 9
+
+### Next Week
+
+ - Preliminary UI finished
+    - Can manually process frames from a video
+    - Can manually upload and process individual still images
