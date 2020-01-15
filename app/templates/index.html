@@ -2,13 +2,57 @@
 <html>
     <head>
         <title>Whiteboard Vision</title>
+        <!-- UIkit CSS -->
+        <link rel="stylesheet" href="/static/uikit.min.css"/>
+
+        <!-- UIkit JS -->
+        <script src="/static/uikit.min.js"></script>
+        <script src="/static/uikit-icons.min.js"></script>
+
+        <!-- CUSTOM CSS -->
         <link rel="stylesheet" type="text/css" href="/static/main.css">
     </head>
     <body>
-        <noscript>
-            Sorry, but JavaScript is required to enable the functionality of this page.
-            Please enable JavaScript to continue.
+        <!-- NAVBAR -->
+        <div id="navbar-container" class="uk-container uk-container-expand">
+            <nav id="navbar" class="uk-navbar-container uk-margin" uk-navbar>
+                <div class="uk-navbar-left">
+                    <a class="uk-navbar-item uk-logo" href="#">Whiteboard Vision</a>
+                    <ul class="uk-navbar-nav uk-light">
+                        <li>
+                            <a href="#">
+                                About
+                            </a>
+                        </li>
+                        <li>
+                            <a href="#">
+                                Reset
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </nav>
+        </div>
+        <noscript class="uk-section">
+            <div class="uk-container">
+                Sorry, but JavaScript is required to enable the functionality of this page.
+                Please enable JavaScript to continue.
+            </div>
         </noscript>
+        <!-- START BUTTONS-->
+        <div id="button-container">
+            <div id="button-wrapper">
+                <p uk-margin>
+                    <button class="uk-align-center uk-button uk-button-primary uk-button-large">Upload Images</button>
+                </p>
+                <p uk-margin class="uk-text-center">
+                    Or...
+                </p>
+                <p uk-margin>
+                    <button class="uk-align-center uk-button uk-button-primary uk-button-large">Record a Video</button>
+                </p>
+            </div>
+        </div>
         <form id="image-upload-form">
             <input id="image-upload" type="file" name="images" multiple/>
         </form>
