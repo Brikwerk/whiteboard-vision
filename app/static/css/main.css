@@ -15,6 +15,18 @@ html, body {
     color: #fff;
 }
 
+/** VIDEO SECTION STYLING **/
+
+#webcam-stream {
+    width: 100%;
+    margin: auto;
+}
+
+.webcam-snapshot {
+    padding-top: 40px;
+    width: 100%;
+}
+
 /** START BUTTON STYLING **/
 
 #button-container {
