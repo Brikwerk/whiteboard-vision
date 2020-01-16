@@ -33,20 +33,6 @@ function renderUploadedImages(imageFiles) {
         reader.onload = function (evt) {
             container = document.getElementById("uploads-container");
 
-            // roiText = document.createElement("div");
-            // roiText.id = name + "-text-display";
-            // roiText.classList.add("roi-text");
-            // container.appendChild(roiText)
-
-            // uploadedImageContainer = document.createElement("div");
-            // uploadedImageContainer.id = name
-            // uploadedImageContainer.classList.add("uploaded-image");
-
-            // uploadedImage = document.createElement("img");
-            // uploadedImage.id = name + "-img";
-            // uploadedImage.setAttribute("src", evt.target.result);
-            // uploadedImageContainer.appendChild(uploadedImage);
-
             imageContainer = renderImageContainer(evt.target.result);
 
             container.appendChild(imageContainer);
