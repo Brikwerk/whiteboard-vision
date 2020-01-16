@@ -490,3 +490,12 @@ Alternatively...
  - Preliminary UI finished
     - Can manually process frames from a video
     - Can manually upload and process individual still images
+
+## Jan 16
+
+### Progress
+
+- Added Preliminary UI and UI functionality
+    - Video and Image sections added
+    - Image section takes uploaded images and attempts to add them to a tabbed section
+    - Video section attempts to record webcam (currently unavailable due to SSL issues)
