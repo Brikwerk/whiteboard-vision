@@ -2,17 +2,22 @@
 <html>
     <head>
         <title>Whiteboard Vision</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
         <!-- UIkit CSS -->
-        <link rel="stylesheet" href="/static/uikit.min.css"/>
+        <link rel="stylesheet" href="/static/css/uikit.min.css"/>
 
         <!-- UIkit JS -->
-        <script src="/static/uikit.min.js"></script>
-        <script src="/static/uikit-icons.min.js"></script>
+        <script src="/static/js/uikit.min.js"></script>
+        <script src="/static/js/uikit-icons.min.js"></script>
 
         <!-- CUSTOM CSS -->
-        <link rel="stylesheet" type="text/css" href="/static/main.css">
+        <link rel="stylesheet" type="text/css" href="/static/css/main.css">
+        <!-- CUSTOM JS-->
+        <script src="/static/js/wv-image.js"></script>
+        <script src="/static/js/wv-video.js"></script>
     </head>
     <body>
+
         <!-- NAVBAR -->
         <div id="navbar-container" class="uk-container uk-container-expand">
             <nav id="navbar" class="uk-navbar-container uk-margin" uk-navbar>
@@ -33,30 +38,58 @@
                 </div>
             </nav>
         </div>
-        <noscript class="uk-section">
-            <div class="uk-container">
-                Sorry, but JavaScript is required to enable the functionality of this page.
-                Please enable JavaScript to continue.
-            </div>
+
+        <!-- NO SCRIPT NOTICE -->
+        <noscript>
+            <section class="uk-container">
+                <div class="uk-alert-danger uk-text-center">
+                    <br>
+                    <p>Sorry, but JavaScript is required to enable the functionality of this page.
+                    Please enable JavaScript to continue.</p>
+                    <br>
+                </div>
+            </section>
         </noscript>
-        <!-- START BUTTONS-->
+
+
+        <!-- START BUTTON SECTION -->
         <div id="button-container">
             <div id="button-wrapper">
                 <p uk-margin>
-                    <button class="uk-align-center uk-button uk-button-primary uk-button-large">Upload Images</button>
+                    <button onclick="showPhotoUploadSection()" id="upload-images-button" class="uk-align-center uk-button uk-button-primary uk-button-large">Upload Images</button>
                 </p>
                 <p uk-margin class="uk-text-center">
                     Or...
                 </p>
                 <p uk-margin>
-                    <button class="uk-align-center uk-button uk-button-primary uk-button-large">Record a Video</button>
+                    <button onclick="showVideoSection()" id="record-video-button" class="uk-align-center uk-button uk-button-primary uk-button-large">Record a Video</button>
                 </p>
             </div>
         </div>
-        <form id="image-upload-form">
+        
+        <!-- IMAGE UPLOAD SECTION -->
+        <section id="image-upload-section" class="uk-container hidden container">
+            
+            <div class="js-upload uk-placeholder uk-text-center">
+                <span uk-icon="icon: cloud-upload"></span>
+                <span class="uk-text-middle">Upload images by dropping them here or</span>
+                <div uk-form-custom>
+                    <input type="file" multiple>
+                    <span class="uk-link">selecting one</span>
+                </div>
+            </div>
+
+            <div id="uploads-container"></div>
+        </section>
+
+        <!-- VIDEO SECTION -->
+        <section id="video-section" class="uk-container hidden container"></section>
+
+        <form id="image-upload-form" class="hidden">
             <input id="image-upload" type="file" name="images" multiple/>
         </form>
-        <script src="/static/main.js"></script>
-        <div id="uploads-container"></div>
+
+        <script src="/static/js/main.js"></script>
+        <script src="/static/js/ui-config.js"></script>
     </body>
 </html>
