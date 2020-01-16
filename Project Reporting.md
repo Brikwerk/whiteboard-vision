@@ -499,3 +499,11 @@ Alternatively...
     - Video and Image sections added
     - Image section takes uploaded images and attempts to add them to a tabbed section
     - Video section attempts to record webcam (currently unavailable due to SSL issues)
+
+### Next Week
+
+- Continue working on image/video output
+- Focus on video specifically, get working and refine
+- Allow to save everything
+- Text file output + Text layered over image as output for long term goal
+    - Helps students and for publishability
