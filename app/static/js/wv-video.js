@@ -19,7 +19,7 @@ async function init(videoElement) {
 }
 
 
-function showVideoSection() {
+function renderVideoSection() {
     let buttonContainer = document.getElementById("button-container");
     let videoSection = document.getElementById("video-section")
 
@@ -27,11 +27,14 @@ function showVideoSection() {
     buttonContainer.classList.add("hidden");
     videoSection.classList.remove("hidden");
 
+    let videoContainer = document.createElement("div");
+    videoContainer.id = "video-container";
     let video = document.createElement("video");
     video.id = "webcam-stream";
     video.controls = false;
     video.autoplay = true
-    videoSection.appendChild(video);
+    videoContainer.appendChild(video);
+    videoSection.appendChild(videoContainer);
 
     init(video);
 }
