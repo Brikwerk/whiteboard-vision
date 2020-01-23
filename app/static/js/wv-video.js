@@ -30,6 +30,7 @@ function showVideoSection() {
     let video = document.createElement("video");
     video.id = "webcam-stream";
     video.controls = true;
+    video.autoplay = true
     videoSection.appendChild(video);
 
     init(video);
