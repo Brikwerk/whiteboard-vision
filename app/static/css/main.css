@@ -1,8 +1,11 @@
+/** GENERAL STYLINGS **/
+
 html, body {
     height: 100%;
     min-height: 100%;
     box-sizing: border-box;
 }
+
 
 /** NAVBAR STYLING **/
 
@@ -14,6 +17,7 @@ html, body {
 .uk-navbar-nav>li>a, .uk-navbar-nav>li>a:active, .uk-navbar-nav>li:hover>a, .uk-logo, .uk-logo:hover {
     color: #fff;
 }
+
 
 /** VIDEO SECTION STYLING **/
 
@@ -27,7 +31,25 @@ html, body {
     width: 100%;
 }
 
-/** START BUTTON STYLING **/
+
+/** IMAGE SECTION STYLING **/
+
+.image-upload-container {
+    padding-bottom: 2rem;
+}
+
+.image-tabs .uk-active a {
+    border-bottom: 2px solid #1e87f0;
+}
+
+.image-switcher li img {
+    margin: auto;
+    width: 100%;
+    border: 1px solid #1e87f0;
+}
+
+
+/** START BUTTONS STYLING **/
 
 #button-container {
     display: grid;
@@ -42,28 +64,6 @@ html, body {
     cursor: url('/static/assets/targeter.png'), auto;
 }
 
-/** PRELIMINARY UPLOAD STYLING **/
-
-#image-upload-form {
-    max-width: 1200px;
-    margin: auto;
-}
-
-.image-container {
-    width: 100%;
-}
-
-.uploaded-image {
-    display: block;
-    max-width: 1200px;
-    position: relative;
-    margin: auto;
-}
-
-.uploaded-image img {
-    display: block;
-    width: 100%;
-}
 
 /** ROI RENDER STYLING **/
 
@@ -88,7 +88,8 @@ html, body {
     padding-bottom: 0.5rem;
 }
 
-/** GENERAL STYLING **/
+
+/** OVERRIDING STATE STYLING **/
 
 .hidden {
     display: none !important;
