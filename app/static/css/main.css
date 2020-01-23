@@ -6,6 +6,20 @@ html, body {
     box-sizing: border-box;
 }
 
+.svg-overlay {
+    position: absolute;
+    user-select: none;
+    cursor: url('/static/assets/targeter.png') 15 15, auto;
+}
+
+.svg-overlay-points {
+    z-index: 5;
+}
+
+.svg-overlay-detector {
+    z-index: 10;
+}
+
 
 /** NAVBAR STYLING **/
 
@@ -20,6 +34,10 @@ html, body {
 
 
 /** VIDEO SECTION STYLING **/
+
+#video-container {
+    position: relative;
+}
 
 #webcam-stream {
     width: 100%;
@@ -42,6 +60,10 @@ html, body {
     border-bottom: 2px solid #1e87f0;
 }
 
+.image-switcher li {
+    position: relative;
+}
+
 .image-switcher li img {
     margin: auto;
     width: 100%;
@@ -50,6 +72,7 @@ html, body {
 
 #uploads-container img {
     cursor: url('/static/assets/targeter.png') 15 15, auto;
+    user-select: none;
 }
 
 
