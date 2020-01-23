@@ -48,6 +48,10 @@ html, body {
     border: 1px solid #1e87f0;
 }
 
+#uploads-container img {
+    cursor: url('/static/assets/targeter.png') 15 15, auto;
+}
+
 
 /** START BUTTONS STYLING **/
 
@@ -58,10 +62,6 @@ html, body {
 
 #button-wrapper {
     margin: auto;
-}
-
-#uploads-container img {
-    cursor: url('/static/assets/targeter.png'), auto;
 }
 
 

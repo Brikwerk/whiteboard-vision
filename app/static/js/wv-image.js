@@ -28,6 +28,33 @@ function createButton(buttonText, buttonType) {
 }
 
 
+function createSVGOverlay(width, height, id) {
+    let svgElm = document.createElement("svg");
+    svgElm.setAttribute("width", width.toString());
+    svgElm.setAttribute("height", height.toString());
+    svgElm.id = id;
+
+    return svgElm;
+}
+
+
+function getDimensionsFromBase64Image(base64) {
+    let hiddenImage = new Image();
+    hiddenImage.src = base64;
+    hiddenImage.classList.add("hidden");
+    hiddenImageID = CreateUUID();
+    hiddenImage.id = hiddenImageID;
+
+    document.body.append(hiddenImage);
+    loadedImage = document.getElementById(hiddenImageID);
+    dimensions = [loadedImage.naturalWidth, loadedImage.naturalHeight];
+    loadedImage.outerHTML = "";
+
+    console.log(dimensions);
+    return dimensions
+}
+
+
 function renderUploadedImages(imageFiles) {
     if (imageFiles.length == 0) {
         return;
@@ -50,9 +77,10 @@ function renderUploadedImages(imageFiles) {
         let name = CreateUUID() + "." + extension;
 
         // Loading image onto page
-        reader.onload = function (evt) {
+        reader.onload = function(evt) {
             container = document.getElementById("uploads-container");
 
+            console.log(evt);
             imageContainer = renderImageContainer(evt.target.result, name);
 
             container.appendChild(imageContainer);
@@ -65,10 +93,10 @@ function renderUploadedImages(imageFiles) {
 }
 
 
-function renderImageContainer(imageBase64, containerName) {
+function renderImageContainer(imageBase64, imageName) {
     let imageContainer = document.createElement("div");
-    imageContainer.id = containerName + "-container";
-    imageContainer.setAttribute("imageName", containerName);
+    imageContainer.id = imageName + "-container";
+    imageContainer.setAttribute("imageName", imageName);
     imageContainer.classList.add("image-upload-container");
 
     // Making tab section
@@ -81,10 +109,34 @@ function renderImageContainer(imageBase64, containerName) {
     tabContainer.appendChild(firstTab);
     tabContainer.classList.add("uk-tab", "image-tabs");
 
-    // Making switch section
+    // Making switcher section
     let switcherContainer = document.createElement("ul")
     let firstSwitcher = document.createElement("li");
     let image = document.createElement("img");
+
+    image.id = imageName;
+
+    // Inserting SVG overlays on Image load
+    image.addEventListener("load", function() {
+        // Making SVG overlays for ROIs and ROI points
+        // Overlays are added on image load through a callback
+        let svgROI = createSVGOverlay(this.naturalWidth, this.naturalHeight, this.id + "-roi");
+        let svgPoints = createSVGOverlay(this.naturalWidth, this.naturalHeight, this.id + "-points");
+
+        // Creating detection plane for registering clicks on image
+        let svgDetector = document.createElement("div");
+        svgDetector.style.width = this.naturalWidth.toString() + "px";
+        svgDetector.style.height = this.naturalHeight.toString() + "px";
+        svgDetector.style.display = "block";
+
+        // Registering click detection for ROI drawing
+        svgDetector.addEventListener("click", function(){console.log("clicked")})
+
+        let parent = this.parentElement;
+        parent.insertBefore(svgROI, parent.firstChild);
+        parent.insertBefore(svgPoints, parent.firstChild);
+        parent.insertBefore(svgDetector, parent.firstChild);
+    })
 
     image.setAttribute("src", imageBase64);
 
