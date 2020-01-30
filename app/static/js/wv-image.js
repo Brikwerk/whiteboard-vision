@@ -74,6 +74,17 @@ function addSVGPolygonPoint(poly, x, y) {
     poly.setAttribute("points", points);
 }
 
+function createTab(tabName) {
+    let tab = document.createElement("li");
+    let tabAnchor = document.createElement("a");
+    tabAnchor.setAttribute("href", "#");
+    tabAnchor.innerHTML = tabName
+    
+    tab.appendChild(tabAnchor);
+
+    return tab
+}
+
 
 function renderUploadedImages(imageFiles) {
     if (imageFiles.length == 0) {
@@ -120,6 +131,7 @@ function renderImageContainer(imageBase64, imageName) {
 
     // Making tab section
     let tabContainer = document.createElement("ul");
+    tabContainer.id = imageName + "-tabs";
     let firstTab = document.createElement("li");
 
     firstTab.innerHTML = "<a href='#'>Original</a>";
@@ -130,6 +142,7 @@ function renderImageContainer(imageBase64, imageName) {
 
     // Making switcher section
     let switcherContainer = document.createElement("ul")
+    switcherContainer.id = imageName + "-switcher";
     let firstSwitcher = document.createElement("li");
     let image = document.createElement("img");
 
@@ -173,7 +186,7 @@ function renderImageContainer(imageBase64, imageName) {
     clearButton.addEventListener("click", clearSelection);
     let detectButton = createButton("Detect Text in Selection", "large");
     detectButton.setAttribute("imageName", imageName);
-    detectButton.addEventListener("click", detectSelection);
+    detectButton.addEventListener("click", getImageSelection);
 
     buttonContainer.appendChild(clearButton);
     buttonContainer.appendChild(detectButton);
@@ -186,6 +199,10 @@ function renderImageContainer(imageBase64, imageName) {
     // Appending tabs & switcher to container
     imageContainer.appendChild(tabContainer);
     imageContainer.appendChild(switcherContainer);
+
+    // Initializing switcher/tabs
+    UIkit.switcher(switcherContainer);
+    UIkit.tab(tabContainer);
 
     return imageContainer
 }
@@ -231,9 +248,8 @@ function clearSelection(evt) {
 }
 
 
-function detectSelection(evt) {
+function getImageSelection(evt) {
     let imageName = evt.target.getAttribute("imageName");
-    let roi = document.getElementById(imageName + "-roi");
     let points = document.getElementById(imageName + "-points");
 
     if (points.children.length !== 4) {
@@ -241,5 +257,21 @@ function detectSelection(evt) {
         return;
     }
 
-    
+    // Adding new tab/switcher
+    let tabs = document.getElementById(imageName + "-tabs");
+    let switcher = document.getElementById(imageName + "-switcher");
+    // Creating new elements
+    let newSwitcher = document.createElement("li");
+    switcher.appendChild(newSwitcher);
+    let tabNum = tabs.childElementCount;
+    let newTab = createTab('Selection ' + tabNum + '&nbsp;&nbsp;<div uk-spinner="ratio: 0.4"></div>');
+    tabs.appendChild(newTab);
+
+    // Getting and rectifying selection
+    let selectCanvas = document.createElement("canvas");
+    let image = document.getElementById(imageName);
+    let coords = getSelectionCoords(points);
+    cropSelection(image, selectCanvas, coords);
+
+    newSwitcher.appendChild(selectCanvas);
 }
