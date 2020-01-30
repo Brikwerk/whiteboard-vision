@@ -6,14 +6,15 @@ html, body {
     box-sizing: border-box;
 }
 
-noscript {
+#noscript {
     position: absolute;
     z-index: 20;
     margin: auto;
     width: 100%;
+    background-color: white;
 }
 
-noscript .uk-alert-danger {
+#noscript .uk-alert-danger {
     padding: 0 2rem 0 2rem;
 }
 
