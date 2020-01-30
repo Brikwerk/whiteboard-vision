@@ -524,3 +524,14 @@ Alternatively...
 ### Progress
 
 - Added preliminary cropping support through selections with OpenCV
+
+### Next Week
+
+- Switch to detected tab after clicking button
+- Make current tab more prominent - background colour
+- Finish video with selection
+- Deployment strategies?
+- Benchmark dataset?
+- Come up with novel application for paper
+- Find studies that confirms usefulness
+- Use detection to generate bounding boxes for automatic whiteboard detection. Compare differences of detected words.
