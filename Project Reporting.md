@@ -507,3 +507,20 @@ Alternatively...
 - Allow to save everything
 - Text file output + Text layered over image as output for long term goal
     - Helps students and for publishability
+
+## Jan 23
+
+### Progress
+
+- Fixed image upload and added preliminary selection support
+- Added video support from webcam with selection support
+
+### Next Week
+
+- Work on cropping/uploading images with OpenCV.js
+
+## Jan 30
+
+### Progress
+
+- Added preliminary cropping support through selections with OpenCV
