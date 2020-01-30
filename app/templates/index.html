@@ -10,6 +10,9 @@
         <script src="/static/js/uikit.min.js"></script>
         <script src="/static/js/uikit-icons.min.js"></script>
 
+        <!-- JS Libraries-->
+        <script async src="/static/js/opencv.js" onload="onOpenCvReady();" type="text/javascript"></script>
+
         <!-- CUSTOM CSS -->
         <link rel="stylesheet" type="text/css" href="/static/css/main.css">
         <!-- CUSTOM JS-->
@@ -17,6 +20,12 @@
         <script src="/static/js/wv-video.js"></script>
     </head>
     <body>
+        <div id="loading-cover" class="center-container">
+            <div class="center-wrapper">
+                <div uk-spinner="ratio:2"></div>
+                <p>Loading Assets...</p>
+            </div>
+        </div>
 
         <!-- NAVBAR -->
         <div id="navbar-container" class="uk-container uk-container-expand">
@@ -40,8 +49,8 @@
         </div>
 
         <!-- NO SCRIPT NOTICE -->
-        <noscript>
-            <section class="uk-container">
+        <noscript class="center-container">
+            <section class="uk-container center-wrapper">
                 <div class="uk-alert-danger uk-text-center">
                     <br>
                     <p>Sorry, but JavaScript is required to enable the functionality of this page.
@@ -53,8 +62,8 @@
 
 
         <!-- START BUTTON SECTION -->
-        <div id="button-container">
-            <div id="button-wrapper">
+        <div id="button-container" class="center-container">
+            <div id="button-wrapper" class="center-wrapper">
                 <p uk-margin>
                     <button onclick="showPhotoUploadSection()" id="upload-images-button" class="uk-align-center uk-button uk-button-primary uk-button-large">Upload Images</button>
                 </p>
@@ -91,6 +100,6 @@
             <input id="image-upload" type="file" name="images" multiple/>
         </form>
 
-        <script src="/static/js/ui-config.js"></script>
+        <script src="/static/js/utils.js"></script>
     </body>
 </html>

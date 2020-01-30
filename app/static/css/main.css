@@ -6,6 +6,17 @@ html, body {
     box-sizing: border-box;
 }
 
+noscript {
+    position: absolute;
+    z-index: 20;
+    margin: auto;
+    width: 100%;
+}
+
+noscript .uk-alert-danger {
+    padding: 0 2rem 0 2rem;
+}
+
 .svg-overlay {
     position: absolute;
     user-select: none;
@@ -18,6 +29,23 @@ html, body {
 
 .svg-overlay-detector {
     z-index: 10;
+}
+
+
+/** LOADING COVER STYLING **/
+
+#loading-cover {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    z-index: 15;
+    background-color: white;
+    animation-duration: 0.5s;
+}
+
+#loading-cover .uk-spinner {
+    margin: auto;
 }
 
 
@@ -76,18 +104,6 @@ html, body {
 }
 
 
-/** START BUTTONS STYLING **/
-
-#button-container {
-    display: grid;
-    min-height: 80%;
-}
-
-#button-wrapper {
-    margin: auto;
-}
-
-
 /** ROI RENDER STYLING **/
 
 .roi {
@@ -113,6 +129,15 @@ html, body {
 
 
 /** OVERRIDING STATE STYLING **/
+
+.center-container {
+    display: grid;
+    min-height: 80%;
+}
+
+.center-wrapper {
+    margin: auto;
+}
 
 .hidden {
     display: none !important;
