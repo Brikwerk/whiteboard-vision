@@ -32,6 +32,15 @@ html, body {
     z-index: 10;
 }
 
+.svg-roi {
+    fill: lime;
+    opacity: 0.5;
+}
+
+.recognition-roi:hover {
+    fill: red;
+}
+
 
 /** LOADING COVER STYLING **/
 
@@ -71,10 +80,22 @@ html, body {
 #webcam-stream {
     width: 100%;
     margin: auto;
+    margin-bottom: 1rem;
+}
+
+.snapshot-container {
+    padding-top: 1.75rem;
+    display: block;
+    position: relative;
+    max-width: 100%;
+}
+
+.snapshot-container h3 {
+    margin-bottom: 0;
+    padding-bottom: 0.5rem;
 }
 
 .webcam-snapshot {
-    padding-top: 40px;
     width: 100%;
 }
 
@@ -97,6 +118,12 @@ html, body {
     margin: auto;
     width: 100%;
     border: 1px solid #1e87f0;
+}
+
+.image-switcher li canvas {
+    margin: auto;
+    display: block;
+    width: 100%;
 }
 
 #uploads-container img {
