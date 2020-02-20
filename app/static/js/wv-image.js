@@ -1,10 +1,3 @@
-function deleteChildren(elm) {
-    while (elm.hasChildNodes()) {
-        elm.removeChild(elm.lastChild);
-    }
-}
-
-
 function showPhotoUploadSection() {
     let buttonContainer = document.getElementById("button-container");
     let imageUploadSection = document.getElementById("image-upload-section")
@@ -14,65 +7,6 @@ function showPhotoUploadSection() {
     imageUploadSection.classList.remove("hidden");
 }
 
-
-function CreateUUID() {
-    return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
-        let r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
-        return v.toString(16);
-    });
-}
-
-function createButton(buttonText, buttonType) {
-    let button = document.createElement("button");
-    button.classList.add("uk-button", "uk-button-primary");
-    button.innerHTML = buttonText;
-
-    if (buttonType === "large") {
-        button.classList.add("uk-width-1-1", "uk-margin-small-bottom");
-    }
-
-    return button
-}
-
-
-function createSVGOverlay(width, height, id) {
-    let svgElm = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
-    svgElm.setAttribute("viewBox", "0 0 " + width.toString() + " " + height.toString());
-    svgElm.id = id;
-    svgElm.classList.add("svg-overlay");
-
-    return svgElm;
-}
-
-
-function createSVGCircle(x, y) {
-    let svgCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
-    svgCircle.setAttribute("cx", x.toString());
-    svgCircle.setAttribute("cy", y.toString());
-    svgCircle.setAttribute("r", "6");
-    svgCircle.setAttribute("stroke", "white");
-    svgCircle.setAttribute("stroke-width", "2");
-    svgCircle.setAttribute("fill", "red");
-
-    return svgCircle;
-}
-
-
-function createSVGPolygon() {
-    let svgPoly = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
-    svgPoly.setAttribute("points", "");
-    svgPoly.style.fill = "lime";
-    svgPoly.style.opacity = "0.5";
-
-    return svgPoly;
-}
-
-
-function addSVGPolygonPoint(poly, x, y) {
-    let points = poly.getAttribute("points");
-    points = points + " " + x + "," + y;
-    poly.setAttribute("points", points);
-}
 
 function createTab(tabName) {
     let tab = document.createElement("li");
@@ -105,7 +39,7 @@ function renderUploadedImages(imageFiles) {
         if (extension === file.name) {
             extension = "";
         }
-        let name = CreateUUID() + "." + extension;
+        let name = createUUID() + "." + extension;
 
         // Loading image onto page
         reader.onload = function(evt) {
@@ -231,7 +165,7 @@ function drawPoint(evt) {
 
         // Create poly if it doesn't exist
         if (roi.children.length === 0) {
-            roi.appendChild(createSVGPolygon());
+            roi.appendChild(createSVGROIPolygon());
         }
 
         addSVGPolygonPoint(roi.children[0], x, y);
@@ -239,23 +173,9 @@ function drawPoint(evt) {
 }
 
 
-function clearSelection(evt) {
-    let imageName = evt.target.getAttribute("imageName");
-    let roi = document.getElementById(imageName + "-roi");
-    let points = document.getElementById(imageName + "-points");
-    deleteChildren(roi);
-    deleteChildren(points);
-}
-
-
 function getImageSelection(evt) {
     let imageName = evt.target.getAttribute("imageName");
     let points = document.getElementById(imageName + "-points");
-
-    if (points.children.length !== 4) {
-        UIkit.notification({message: 'Not enough points for selection!', status: 'danger'});
-        return;
-    }
 
     // Adding new tab/switcher
     let tabs = document.getElementById(imageName + "-tabs");
@@ -269,9 +189,47 @@ function getImageSelection(evt) {
 
     // Getting and rectifying selection
     let selectCanvas = document.createElement("canvas");
+    selectCanvas.id = imageName + "-" + tabNum
     let image = document.getElementById(imageName);
-    let coords = getSelectionCoords(points);
-    cropSelection(image, selectCanvas, coords);
 
+    if (points.children.length !== 4) {
+        selectCanvas.width = image.naturalWidth;
+        selectCanvas.height = image.naturalHeight;
+        let ctx = selectCanvas.getContext('2d');
+        ctx.drawImage(image, 0, 0);
+    } else {
+        let coords = getSelectionCoords(points);
+        cropSelection(image, selectCanvas, coords);
+    }
+
+    // Adding switcher with selected image page
     newSwitcher.appendChild(selectCanvas);
+    changeTabSwitcher(tabNum, switcher, tabs);
+    // UIkit.switcher(switcher).show(tabNum);
+
+    // Beginning the recognition process
+    performRecognition(selectCanvas, function(data){
+        newTab.firstChild.innerHTML = "Selection " + tabNum + " <span uk-icon='check'></span>";
+        let recognitionRoisName = imageName + "-sel-" + tabNum + "-roi";
+        let recognitionRois = createSVGOverlay(selectCanvas.width, selectCanvas.height, recognitionRoisName);
+
+        // Rendering ROIs to the SVG
+        imageData = data[Object.keys(data)[0]] // Getting first image data since we only sent one image
+        // Iterating over words within the image data
+        for (let i = 0; i < Object.keys(imageData).length; i++) {
+            let bbox = imageData[i]["bbox"];
+            let text = imageData[i]["text"];
+            let score = Math.round(imageData[i]["score"] * 100)
+
+            let polygon = createSVGROIPolygon();
+            polygon.classList.add("recognition-roi");
+            polygon.setAttribute("uk-tooltip", "" + text + " (" + score + "%)");
+            addSVGPolygonPoint(polygon, bbox[0][0], bbox[0][1])
+            addSVGPolygonPoint(polygon, bbox[1][0], bbox[1][1])
+            addSVGPolygonPoint(polygon, bbox[2][0], bbox[2][1])
+            addSVGPolygonPoint(polygon, bbox[3][0], bbox[3][1])
+            recognitionRois.appendChild(polygon);
+        }
+        newSwitcher.insertBefore(recognitionRois, newSwitcher.firstChild);
+    });
 }
