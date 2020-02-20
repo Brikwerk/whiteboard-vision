@@ -20,7 +20,7 @@ document.getElementById("image-upload").addEventListener("change", function() {
         if (extension === file.name) {
             extension = "";
         }
-        let name = CreateUUID() + "." + extension;
+        let name = createUUID() + "." + extension;
 
         // Loading image onto page
         reader.onload = function (evt) {
@@ -81,7 +81,7 @@ function makeRequest(method, apiEndpoint, data) {
 }
 
 
-function CreateUUID() {
+function createUUID() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
         let r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
         return v.toString(16);
