@@ -528,10 +528,39 @@ Alternatively...
 ### Next Week
 
 - Switch to detected tab after clicking button
-- Make current tab more prominent - background colour
 - Finish video with selection
 - Deployment strategies?
 - Benchmark dataset?
 - Come up with novel application for paper
 - Find studies that confirms usefulness
 - Use detection to generate bounding boxes for automatic whiteboard detection. Compare differences of detected words.
+
+## Feb 6
+
+### Next Week
+
+- Delete selections, select multiple selections to save
+- Web deployment plan - cortex?
+- *Add docstrings*
+- Solicit feedback from class
+- Testing scenarios
+
+- Ask after appropriate format
+- Combination of the two neural nets is novel. Rotating/cropping code is unique. 1 paragraph on what has been added. Paragraph on what's existing, what we added.
+- Attempt to get feedback from students
+- Deployment can happen after the paper
+
+## Feb 13
+
+### Progress
+
+- Added ROI drawing and text rendering with scores
+- Bugfixes and docstring progress
+- Began addition of sentence parsing
+
+### Next Week
+
+- Write a 6 page draft the the paper within the next two weeks. Leave the results section blank. Might have output? Initial results section, put initial results. Can show.
+- Include literature review, half page (anyone that has done anything in this area), problem definition, Contribution - the contribution to someone's life, Significance - why should we care - where this will be helpful, the system - easy for people to read - for general audience but still technical.
+- Fix bug where points are checked with a race condition
+- Switch image and upload button order
