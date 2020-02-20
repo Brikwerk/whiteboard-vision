@@ -29,13 +29,6 @@ def process_images(images, debug=False):
         image_name = os.path.basename(image_path)
         data[image_name] = {}
 
-        # wb_bboxes = imgutil.detect_whiteboard(image)
-        # warped_images = []
-        # for bbox in wb_bboxes:
-        #     warped_images.append(imgutil.four_point_transform(image, bbox))
-        # # Detecting text and getting bounding boxes from first whiteboard
-        # if len(warped_images) > 0:
-        #     image = warped_images[0]
         boxes, polys = detection.detect_text(np.array(image))
         
         count = 0

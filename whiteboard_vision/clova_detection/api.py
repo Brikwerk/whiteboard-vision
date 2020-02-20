@@ -58,7 +58,8 @@ cuda=True, poly=False, refine_net=None, canvas_size=1280, mag_ratio=1.5):
         x = x.cuda()
 
     # forward pass
-    y, feature = net(x)
+    with torch.no_grad():
+         y, feature = net(x)
 
     # make score and link map
     score_text = y[0,:,:,0].cpu().data.numpy()
@@ -66,7 +67,8 @@ cuda=True, poly=False, refine_net=None, canvas_size=1280, mag_ratio=1.5):
 
     # refine link
     if refine_net is not None:
-        y_refiner = refine_net(y, feature)
+        with torch.no_grad():
+             y_refiner = refine_net(y, feature)
         score_link = y_refiner[0,:,:,0].cpu().data.numpy()
 
     # Post-processing
