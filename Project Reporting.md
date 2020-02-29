@@ -564,3 +564,16 @@ Alternatively...
 - Include literature review, half page (anyone that has done anything in this area), problem definition, Contribution - the contribution to someone's life, Significance - why should we care - where this will be helpful, the system - easy for people to read - for general audience but still technical.
 - Fix bug where points are checked with a race condition
 - Switch image and upload button order
+
+## Feb 27
+
+### Progress
+
+- Docker deployment strategy finished
+- Fixed bugs with video race condition
+- Improved image recognition
+
+### Next Week
+
+- Continue writing draft report
+- Deploy site
