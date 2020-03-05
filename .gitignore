@@ -108,10 +108,11 @@ venv.bak/
 
 # Project specific
 /results
-weights/
 /.vscode
 bbox_results
 output.txt
 config.py
-/uploads
+uploads/
 *.pem
+nginx.conf
+*.pid

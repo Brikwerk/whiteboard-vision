@@ -1,0 +1,203 @@
+/** GENERAL STYLINGS **/
+
+html, body {
+    height: 100%;
+    min-height: 100%;
+    box-sizing: border-box;
+}
+
+#noscript {
+    position: absolute;
+    z-index: 20;
+    margin: auto;
+    width: 100%;
+    background-color: white;
+}
+
+#noscript .uk-alert-danger {
+    padding: 0 2rem 0 2rem;
+}
+
+.svg-overlay {
+    position: absolute;
+    user-select: none;
+    cursor: url('/static/assets/targeter.png') 15 15, auto;
+}
+
+.svg-overlay-points {
+    z-index: 5;
+}
+
+.svg-overlay-detector {
+    z-index: 10;
+}
+
+.svg-roi {
+    fill: lime;
+    opacity: 0.5;
+}
+
+.svg-outline {
+    stroke: blue;
+    stroke-width: 0.75rem;
+    fill: none;
+    opacity: 0.3;
+}
+
+.recognition-roi:hover {
+    fill: red;
+}
+
+#download-button-section {
+    min-height: 0;
+    padding-top: 2rem;
+}
+
+#download-button-section .center-wrapper p {
+    margin-bottom: 0;
+}
+
+#download-button {
+    margin-bottom: 0;
+}
+
+
+/** LOADING COVER STYLING **/
+
+#loading-cover {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    z-index: 15;
+    background-color: white;
+    animation-duration: 0.5s;
+}
+
+#loading-cover .uk-spinner {
+    margin: auto;
+}
+
+
+/** NAVBAR STYLING **/
+
+#navbar-container, #navbar {
+    color: white;
+    background-color: #1e87f0;
+}
+
+.uk-navbar-nav>li>a, .uk-navbar-nav>li>a:active, .uk-navbar-nav>li:hover>a, .uk-logo, .uk-logo:hover {
+    color: #fff;
+}
+
+
+/** VIDEO SECTION STYLING **/
+
+#video-container {
+    position: relative;
+}
+
+#webcam-stream {
+    width: 100%;
+    margin: auto;
+    margin-bottom: 1rem;
+}
+
+.snapshot-container {
+    padding-top: 1.75rem;
+    display: block;
+    position: relative;
+    max-width: 100%;
+}
+
+.snapshot-container h3 {
+    margin-bottom: 0;
+    padding-bottom: 0.5rem;
+}
+
+.webcam-snapshot {
+    width: 100%;
+}
+
+
+/** IMAGE SECTION STYLING **/
+
+.image-upload-container {
+    padding-bottom: 2rem;
+}
+
+.image-tabs .uk-active a {
+    border-bottom: 2px solid #1e87f0;
+}
+
+.image-switcher li {
+    position: relative;
+}
+
+.image-switcher li img {
+    margin: auto;
+    width: 100%;
+    border: 1px solid #1e87f0;
+}
+
+.image-switcher li canvas {
+    margin: auto;
+    display: block;
+    width: 100%;
+}
+
+#uploads-container img {
+    cursor: url('/static/assets/targeter.png') 15 15, auto;
+    user-select: none;
+}
+
+
+/** ROI RENDER STYLING **/
+
+.roi {
+    position: absolute;
+    display: block;
+    background-color: rgba(0, 255, 0, 0.5);
+}
+
+.roi:active, .roi:hover {
+    background-color: rgba(255, 0, 0, 0.5);
+}
+
+.roi-text {
+    width: 80%;
+    height: 1.5rem;
+    display: block;
+    margin: auto;
+    font-size: 1.5rem;
+    text-align: center;
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+}
+
+
+/** OVERRIDING STATE STYLING **/
+
+.center-container {
+    display: grid;
+    min-height: 80%;
+}
+
+.center-wrapper {
+    margin: auto;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.js-upload {
+    border-color: #8d8d8d;
+    padding-top: 50px;
+    padding-bottom: 50px
+}
+
+.container {
+    max-width: 1200px;
+    padding-top: 40px;
+}
