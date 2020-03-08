@@ -2,7 +2,7 @@ from app import app
 from flask import request
 from werkzeug.utils import secure_filename
 from whiteboard_vision import process_images, load_image_paths
-import os
+import os, logging
 
 
 @app.route("/v1/imagerecognition", methods=["POST"])
@@ -25,6 +25,7 @@ def image_recognition():
             image_paths.append(image_path)
             f.save(image_path)
     except:
+        logging.exception("Image Upload Error")
         # Deleting uploaded images
         for path in image_paths:
             if os.path.exists(path):
@@ -40,6 +41,7 @@ def image_recognition():
         for path in image_paths:
             os.remove(path)
     except:
+        logging.exception("Image Processing Error")
         # Deleting uploaded images
         for path in image_paths:
             if os.path.exists(path):
