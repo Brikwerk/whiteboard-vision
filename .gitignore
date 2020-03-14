@@ -113,6 +113,6 @@ bbox_results
 output.txt
 config.py
 uploads/
-*.pem
+*.pem/
 nginx.conf
 *.pid
