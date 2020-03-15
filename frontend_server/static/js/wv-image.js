@@ -209,6 +209,14 @@ function getImageSelection(evt) {
 
     // Beginning the recognition process
     performRecognition(selectCanvas, function(data){
+        // Checking for errors in data
+        if (data.hasOwnProperty("error")) {
+            newTab.firstChild.innerHTML = "Selection " + tabNum + " <span uk-icon='close'></span>";
+            let message = data["error"];
+            UIkit.notification({message: '<span uk-icon=\'icon: ban\'></span> ' + message});
+            return;
+        }
+
         newTab.firstChild.innerHTML = "Selection " + tabNum + " <span uk-icon='check'></span>";
         let recognitionRoisName = imageName + "-sel-" + tabNum + "-roi";
         let recognitionRois = createSVGOverlay(selectCanvas.width, selectCanvas.height, recognitionRoisName);

@@ -156,6 +156,14 @@ function captureVideoFrame() {
         videoSection.appendChild(snapshotContainer);
 
         performRecognition(canvas, function(data) {
+            // Checking for errors in data
+            if (data.hasOwnProperty("error")) {
+                dtHeading.innerHTML = dtHeading.innerText + " <span uk-icon='close'></span>";
+                let message = data["error"];
+                UIkit.notification({message: '<span uk-icon=\'icon: ban\'></span> ' + message});
+                return;
+            }
+
             appendResults(data, dtHeading, canvas, snapshotContainer);
 
             let structuredText = getStructuredText(data);

@@ -283,6 +283,8 @@ function makeRequest(method, apiEndpoint, data, callback) {
         if (httpRequest.readyState != 4) return;
         if (httpRequest.status != 200){
             console.error("Status: " + httpRequest.status);
+            let message = "Error: Recieved Status " + httpRequest.status + " on submission";
+            callback({"error": message});
         } else {
             console.log("Data Received:")
             data = JSON.parse(httpRequest.responseText);
