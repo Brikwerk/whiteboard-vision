@@ -14,9 +14,6 @@ RUN pip3 install -r requirements.txt
 
 RUN apt-get update && apt-get install -y supervisor
 
-# Configure supervisor
-COPY supervisord.conf /etc/supervisord.conf
-
 # For flask web server
 EXPOSE 8081
 

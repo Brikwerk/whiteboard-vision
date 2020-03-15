@@ -37,6 +37,7 @@ services:
         container_name: wv-api
         volumes:
             - ./api_server:/app/
+            - ./api_server/supervisord.conf:/etc/supervisord.conf
         networks:
             wv-network:
                 aliases:
