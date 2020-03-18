@@ -1,3 +1,10 @@
+"""
+api_server.api
+~~~~~~~~~~~~~~
+
+Contains the main logic for routing API requests.
+"""
+
 from app import app
 from flask import request
 from werkzeug.utils import secure_filename
@@ -7,6 +14,32 @@ import os, logging
 
 @app.route("/v1/imagerecognition", methods=["POST"])
 def image_recognition():
+    """Recieves a POSTed image, attempts image recognition
+    and returns the results as JSON.
+    
+    :return: Stringified JSON from image recognition/detection
+     or an error. The dictionary takes the form of::
+
+        {
+            "image_name": {
+                "words": {
+                    0: {
+                        "text": "recognized_word",
+                        // How confident the recognition was
+                        "score": 0.99,
+                        // X/Y coords of detected bbox
+                        "bbox": [[0,0],[1,0],[1,1],[0,1]]
+                    } 
+                },
+                "sentences": [
+                    // X/Y coords of detected bbox
+                    [[0,0],[1,0],[1,1],[0,1]]
+                ]
+            }
+        }
+
+    :rtype: string
+    """
     try:
         # Saving files to a directory
         image_dict = request.files.to_dict()

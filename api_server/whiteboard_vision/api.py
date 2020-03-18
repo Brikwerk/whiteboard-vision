@@ -1,5 +1,5 @@
 """
-whiteboard_vision.app
+whiteboard_vision.api
 ~~~~~~~~~~~~~~~~~~~~~
 
 Contains the main logic for processing media and outputting
@@ -20,6 +20,38 @@ from . import imgutil
 
 
 def process_images(images, debug=False):
+    """Performs text recognition and detection on a
+    given set of images.
+    
+    :param images: A list of (OpenCV Image, image_path) tuples
+    :type images: list
+    :param debug: A boolean parameter to output debug images, 
+    defaults to False
+    :type debug: bool, optional
+    :return: Stringified JSON containing the text detection
+    and recognition results. The JSON takes the form of::
+
+        {
+            "image_name": {
+                "words": {
+                    0: {
+                        "text": "recognized_word",
+                        // How confident the recognition was
+                        "score": 0.99,
+                        // X/Y coords of detected bbox
+                        "bbox": [[0,0],[1,0],[1,1],[0,1]]
+                    } 
+                },
+                "sentences": [
+                    // X/Y coords of detected bbox
+                    [[0,0],[1,0],[1,1],[0,1]]
+                ]
+            }
+        }
+
+    :rtype: string
+    """
+
     # Loading models
     detection = CraftDetection(debug=debug)
     detection_sentences = CraftDetection(use_refiner=True, debug=debug)

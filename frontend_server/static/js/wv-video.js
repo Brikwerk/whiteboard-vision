@@ -179,6 +179,13 @@ function captureVideoFrame() {
 }
 
 
+/**
+ * Appends detection/recognition results to an existing container.
+ * @param {JSON} data JSON recognition results from the API endpoint
+ * @param {HTMLElement} dtHeading The title element displaying loading state
+ * @param {CanvasRenderingContext2D} canvas A canvas context instance
+ * @param {HTMLElement} container The container to insert rendered results in
+ */
 function appendResults(data, dtHeading, canvas, container) {
     dtHeading.innerHTML = dtHeading.innerText + " <span uk-icon='check'></span>";
     let recognitionRoisName = createUUID() + "-sel-roi";

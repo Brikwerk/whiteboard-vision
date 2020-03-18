@@ -1,3 +1,6 @@
+/**
+ * Configures the behaviour for UIKit upload forms
+ */
 UIkit.upload('.js-upload', {
     url: '',
     multiple: true,
@@ -7,9 +10,15 @@ UIkit.upload('.js-upload', {
     }
 });
 
+// Defines a global to keep track of recognition results
+// that are used for rendering the final PDF export.
 let DATA = [];
 
 
+/**
+ * Deletes all the children under a given HTML element.
+ * @param {HTMLElement} elm A specified HTML element
+ */
 function deleteChildren(elm) {
     while (elm.hasChildNodes()) {
         elm.removeChild(elm.lastChild);
@@ -17,6 +26,10 @@ function deleteChildren(elm) {
 }
 
 
+/**
+ * Creates an RFC 4122 compliant UUID
+ * @returns {string}
+ */
 function createUUID() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
         let r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
@@ -25,6 +38,13 @@ function createUUID() {
 }
 
 
+/**
+ * 
+ * @param {string} buttonText What text is displayed in the button
+ * @param {string} buttonType The type of button 
+ * (only large is supported at this time)
+ * @returns {HTMLButtonElement} button A UIKit styled button
+ */
 function createButton(buttonText, buttonType) {
     let button = document.createElement("button");
     button.classList.add("uk-button", "uk-button-primary");
@@ -38,6 +58,13 @@ function createButton(buttonText, buttonType) {
 }
 
 
+/**
+ * Creates an SVG element to be used as an overlay.
+ * @param {int} width The width of the overlay
+ * @param {int} height The height of the overlay
+ * @param {string} id The CSS ID of the overlay
+ * @returns {SVGElement} svgElm
+ */
 function createSVGOverlay(width, height, id) {
     let svgElm = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
     svgElm.setAttribute("viewBox", "0 0 " + width.toString() + " " + height.toString());
@@ -48,6 +75,12 @@ function createSVGOverlay(width, height, id) {
 }
 
 
+/**
+ * Creates an SVG circle element at position x, y with a set style.
+ * @param {int} x The position on the X axis of the circle
+ * @param {int} y The position on the Y axis of the circle
+ * @returns {SVGCircleElement} svgCircle
+ */
 function createSVGCircle(x, y) {
     let svgCircle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
     svgCircle.setAttribute("cx", x.toString());
@@ -61,6 +94,10 @@ function createSVGCircle(x, y) {
 }
 
 
+/**
+ * Creates an SVG polygon element with no styling.
+ * @returns {SVGPolygonElement} svgROIPoly 
+ */
 function createSVGPolygon() {
     let svgPoly = document.createElementNS('http://www.w3.org/2000/svg', 'polygon');
     svgPoly.setAttribute("points", "");
@@ -68,6 +105,10 @@ function createSVGPolygon() {
     return svgPoly;
 }
 
+/**
+ * Creates an SVG polygon with svg-roi CSS styling.
+ * @returns {SVGPolygonElement} svgROIPoly 
+ */
 function createSVGROIPolygon() {
     let svgROIPoly = createSVGPolygon();
     svgROIPoly.classList.add("svg-roi");
@@ -75,6 +116,10 @@ function createSVGROIPolygon() {
     return svgROIPoly
 }
 
+/**
+ * Creates an SVG polygon with svg-outline CSS styling.
+ * @returns {SVGPolygonElement} svgROIPoly 
+ */
 function createSVGOutlinePolygon() {
     let svgROIPoly = createSVGPolygon();
     svgROIPoly.classList.add("svg-outline");
@@ -83,6 +128,12 @@ function createSVGOutlinePolygon() {
 }
 
 
+/**
+ * Adds a new point to a given polyon at a specified X/Y coord.
+ * @param {SVGPolygonElement} poly The polygon element being edited
+ * @param {int} x The X coordinate of the point being added
+ * @param {int} y The Y coordinate of the point being added
+ */
 function addSVGPolygonPoint(poly, x, y) {
     let points = poly.getAttribute("points");
     points = points + " " + x + "," + y;
@@ -90,6 +141,11 @@ function addSVGPolygonPoint(poly, x, y) {
 }
 
 
+/**
+ * Gets the X/Y coordinates within a polygon.
+ * @param {SVGPolygonElement} poly The SVG polygon being inspected
+ * @returns {Array} points An array of 4 X/Y float coordinates
+ */
 function getPolygonPoints(poly) {
     let points = poly.getAttribute("points").split(" ");
     points = points.filter(Boolean); // Removing blank strings
@@ -102,7 +158,9 @@ function getPolygonPoints(poly) {
     return points;
 }
 
-
+/**
+ * Hides the loading cover when OpenCV has loaded.
+ */
 function onOpenCvReady() {
     cover = document.getElementById("loading-cover");
     cover.classList.add("uk-animation-fade", "uk-animation-reverse");
@@ -113,17 +171,22 @@ function onOpenCvReady() {
 }
 
 
+/**
+ * Flattens arrays to a 1D view.
+ * @param {Array} array An array of elements
+ * @returns {Array}
+ */
 function flattenArray(array) {
     return [].concat.apply([], array);
 }
 
-
+/**
+ * Orders 4 X/Y coordinates into a clockwise order with the
+ * top left coordinate first. Please note this function only
+ * works on reactangles.
+ * @param {Array} coordinates 4 sets of X/Y coords in an array
+ */
 function orderCoords(coords) {
-    // Orders coordinates into a clockwise order
-    // with the top left coordinate first
-
-    // **This function only works with rectangles**
-
     let ordered = [[],[],[],[]];
 
     // Searching for top left/bottom right
@@ -160,6 +223,13 @@ function orderCoords(coords) {
 }
 
 
+/**
+ * Gets a bounding box from the four circles inside
+ * the passed SVG element. Each circle represents an
+ * X/Y coordinate of the bounding box.
+ * @param {SVGElement} svgElm An SVG DOM element
+ * @returns {Array} orderCoords The ordered coordinates 
+ */
 function getSelectionCoords(svgElm) {
     // Gets an sorts coords in clockwise order from top left
 
@@ -176,6 +246,12 @@ function getSelectionCoords(svgElm) {
     return orderCoords(coords);
 }
 
+
+/**
+ * Clears the SVG circles and Polygons from an SVG element used in
+ * generating a whiteboard selection.
+ * @param {MouseEvent} evt The even generated after a mouse click
+ */
 function clearSelection(evt) {
     let imageName = evt.target.getAttribute("imageName");
     let roi = document.getElementById(imageName + "-roi");
@@ -185,6 +261,14 @@ function clearSelection(evt) {
 }
 
 
+/**
+ * Crops a given bounding box selection out of a given image, rectifies the
+ * cropped image, and displays it in a specified canvas element.
+ * @param {HTMLImageElement} imageElm An HTML image element within the DOM
+ * @param {HTMLCanvasElement || CanvasContext2D} canvasDst A canvas DOM element or
+ * a 2D canvas context
+ * @param {Array} selectionCoords An array of 4 integer X/Y coordinates
+ */
 function cropSelection(imageElm, canvasDst, selectionCoords) {
     // Ensuring coords are ordered
     coords = orderCoords(selectionCoords);
@@ -244,7 +328,12 @@ function cropSelection(imageElm, canvasDst, selectionCoords) {
     cv.imshow(canvasDst, warpedImage);
 }
 
-
+/**
+ * Switches to the specified index in a UIKit switcher/tab setup.
+ * @param {Integer} index The index of the tab to switch to
+ * @param {HTMLElement} switcher The HTML DOM element of the switcher
+ * @param {HTMLElement} tabs The HTML DOM element of the tabs
+ */
 function changeTabSwitcher(index, switcher, tabs) {
     // Getting tab/switcher to toggle off
     let currentTab = tabs.getElementsByClassName("uk-active")[0];
@@ -269,7 +358,8 @@ function changeTabSwitcher(index, switcher, tabs) {
  * @param {String} method A string representing the method of request. Either ("post" or "get").
  * @param {String} apiEndpoint A string representing the API string to append to the site URL
  * @param {FormData} data A FormData object that is to be sent to the API endpoint
- * @param {callback} callback A callback function that fires and is passed received data after success code.
+ * @param {callback} callback A callback function that fires and is passed the
+ * received data after a success code.
  */
 function makeRequest(method, apiEndpoint, data, callback) {
     let httpRequest = new XMLHttpRequest();
@@ -328,10 +418,12 @@ function checkForImage(elm) {
  * @returns {JSON} JSON results from the detection/recognition REST endpoint. Takes the following form
  * as of V1 of the API:
  * - Top Level: Name of the image, can be multiple (Eg: image.png)
- * - Second Level: An array of JSON objects. Each object will have 3 keys:
- *  - bbox: An array of floating point coordinates for detected text's bounding box.
- *  - score: A decimal-value percent chance of the recognition's assuredness
- *  - text: The text that the recognition algorithm recognized within the bounding box.
+ *  - "words": An array of JSON objects. Each object will have 3 keys:
+ *      - bbox: An array of floating point coordinates for detected text's bounding box.
+ *      - score: A decimal-value percent chance of the recognition's assuredness
+ *      - text: The text that the recognition algorithm recognized within the bounding box.
+ *  - "sentences":
+ *      - An array of X/Y coordinates of type float
  */
 function performRecognition(elm, callback) {
     checkForImage(elm);
@@ -355,6 +447,13 @@ function performRecognition(elm, callback) {
 }
 
 
+/**
+ * Enlarges the bounding box by a specified percentage.
+ * @param {Array} bbox An array of 4 X/Y integer coordinates
+ * @param {Integer} enlargePercent The percent enlargement of
+ * the bounding box.
+ * @returns {Array} bboxC The enlarged bounding box 
+ */
 function enlargeRectangle(bbox, enlargePercent) {
     // Please note that a new array must be created and values pushed
     // Array must be deep copied since shallow copies in JS pass-by-ref
@@ -377,6 +476,14 @@ function enlargeRectangle(bbox, enlargePercent) {
 }
 
 
+/**
+ * 
+ * @param {Array} bbox1 An array of 4 X/Y integer coordinates
+ * @param {Array} bbox2 An array of 4 X/Y integer coordinates
+ * @param {Integer} marginOfError An integer representing the percent
+ * margin of error allowed between the two bounding boxes.
+ * @returns {Boolean} 
+ */
 function bboxInsideBbox(bbox1, bbox2, marginOfError) {
     bbox1 = orderCoords(bbox1);
     bbox2 = orderCoords(bbox2);
@@ -398,6 +505,11 @@ function bboxInsideBbox(bbox1, bbox2, marginOfError) {
 }
 
 
+/**
+ * Groups words from API results into sentences and paragraphs.
+ * @param {JSON} recognitionData Detecion/Recognition data from the API (V1)
+ * @returns {string} structuredText A string containing the grouped text 
+ */
 function getStructuredText(recognitionData) {
     let words = recognitionData[Object.keys(recognitionData)[0]]["words"];
     let sentences = recognitionData[Object.keys(recognitionData)[0]]["sentences"];
@@ -511,6 +623,10 @@ function getStructuredText(recognitionData) {
 }
 
 
+/**
+ * Renders a PDF of all recognition results using
+ * the DATA global and the PDFMake library.
+ */
 function renderPDF() {
     let docDefinition = {
         content: [],
@@ -523,13 +639,26 @@ function renderPDF() {
     for (let i = 0; i < DATA.length; i++) {
         let imageURL = DATA[i]["image"].toDataURL();
         let text = DATA[i]["text"];
-        docDefinition.content.push({
+        let aspectRatio = DATA[i]["image"].width/DATA[i]["image"].height
+        let imageContent = {
             image: imageURL,
-            width: 500,
+            pageBreak: 'after',
             style: 'centered'
-        });
+        }
+
+        // Limit larger width/height so image scales to fit
+        if (aspectRatio > 0.72) {
+            console.log("Height dominant", aspectRatio);
+            imageContent.maxHeight = 700;
+            docDefinition.content.push(imageContent);
+        } else {
+            console.log("Width dominant", aspectRatio);
+            imageContent.maxWidth = 500;
+            docDefinition.content.push(imageContent);
+        }
         docDefinition.content.push({
-            text: text
+            text: text,
+            pageBreak: 'after'
         });
     }
 

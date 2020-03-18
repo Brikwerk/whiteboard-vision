@@ -1,3 +1,10 @@
+"""
+frontend_server.run
+~~~~~~~~~~~~~~
+
+Contains the main logic for running the frontend_server Flask app.
+"""
+
 from app import app
 
 

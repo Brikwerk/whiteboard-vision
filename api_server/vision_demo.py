@@ -1,3 +1,10 @@
+"""
+api_server.vision_demo
+~~~~~~~~~~~~~~~~~~~~~~
+
+A one-off script for testing text detection/recogntion.
+"""
+
 import os
 import whiteboard_vision as wv
 

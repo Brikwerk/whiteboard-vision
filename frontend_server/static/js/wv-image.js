@@ -1,3 +1,6 @@
+/**
+ * Shows the Photo Upload Section through CSS classes
+ */
 function showPhotoUploadSection() {
     let buttonContainer = document.getElementById("button-container");
     let imageUploadSection = document.getElementById("image-upload-section")
@@ -8,6 +11,11 @@ function showPhotoUploadSection() {
 }
 
 
+/**
+ * Creates a UIKit tab and enters a name
+ * @param {string} tabName The text to display inside the tab
+ * @returns {HTMLElement} tab A UIKit tab
+ */
 function createTab(tabName) {
     let tab = document.createElement("li");
     let tabAnchor = document.createElement("a");
@@ -20,6 +28,11 @@ function createTab(tabName) {
 }
 
 
+/**
+ * Appends uploaded files to the DOM as img tags with
+ * image data as a Base64 string.
+ * @param {Array} imageFiles An array of uploaded files
+ */
 function renderUploadedImages(imageFiles) {
     if (imageFiles.length == 0) {
         return;
@@ -57,6 +70,13 @@ function renderUploadedImages(imageFiles) {
 }
 
 
+/**
+ * Creates a container, appends the specified image,
+ * and creates all necessary UI for the image container.
+ * @param {string} imageBase64 A Base64 Image string
+ * @param {string} imageName The name of the image
+ * @returns {HTMLElement} imageContainer
+ */
 function renderImageContainer(imageBase64, imageName) {
     let imageContainer = document.createElement("div");
     imageContainer.id = imageName + "-container";
@@ -142,6 +162,11 @@ function renderImageContainer(imageBase64, imageName) {
 }
 
 
+/**
+ * Draws a vector point where the user clicked on an SVG layer 
+ * overtop of an image.
+ * @param {MouseEvent} evt The event generated after a mouse click
+ */
 function drawPoint(evt) {
     let detector = evt.target
     let imageName = detector.getAttribute("imageName");
@@ -173,6 +198,11 @@ function drawPoint(evt) {
 }
 
 
+/**
+ * Submits a given image to the API endpoint for detection/recognition
+ * and renders the results.
+ * @param {MouseEvent} evt The event generated after a mouse click
+ */
 function getImageSelection(evt) {
     let imageName = evt.target.getAttribute("imageName");
     let points = document.getElementById(imageName + "-points");

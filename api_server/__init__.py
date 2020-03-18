@@ -1,3 +1,14 @@
+"""
+api_server
+~~~~~~~~~~~~~~~~~~~~~
+
+A Flask app for recognizing and detecting text
+on whiteboards.
+
+:copyright: 2020 Reece Walsh
+:license: GNU-GPL-3.0
+"""
+
 from flask import Flask
 import os.path
 

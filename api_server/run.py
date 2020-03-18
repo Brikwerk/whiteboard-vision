@@ -1,3 +1,10 @@
+"""
+api_server.run
+~~~~~~~~~~~~~~
+
+Contains the main logic for running the api_server Flask app.
+"""
+
 from app import app
 
 

@@ -1,3 +1,10 @@
+"""
+frontend_server.app
+~~~~~~~~~~~~~~
+
+Contains the main logic for setting up the frontend_server Flask app.
+"""
+
 import os
 
 from flask import Flask, render_template
