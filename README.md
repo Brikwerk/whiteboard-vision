@@ -2,7 +2,7 @@
 
 <p align="center">
   <a href="" rel="noopener">
- <img src="https://raw.githubusercontent.com/Brikwerk/whiteboard-vision/master/docs/figures/wv-hero-image.jpg?token=ADJJVND7PAMJ3YW3VH7MQMS6O2XVG" alt="Whiteboard Vision Demo Image"></a>
+ <img src="https://user-images.githubusercontent.com/13802164/77241008-11795c80-6baa-11ea-8afb-e221fa61a498.jpg" alt="Whiteboard Vision Demo Image"></a>
 </p>
 
 
