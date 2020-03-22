@@ -1,4 +1,10 @@
-# Whiteboard Vision
+<h1 align="center">Whiteboard Vision</h1>
+
+<p align="center">
+  <a href="" rel="noopener">
+ <img src="https://raw.githubusercontent.com/Brikwerk/whiteboard-vision/master/docs/figures/wv-hero-image.jpg?token=ADJJVND7PAMJ3YW3VH7MQMS6O2XVG" alt="Whiteboard Vision Demo Image"></a>
+</p>
+
 
 ## Description
 
