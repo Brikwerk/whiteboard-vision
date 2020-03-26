@@ -18,7 +18,9 @@ A client-server relationship is leveraged to achieve functionality. Docker is us
 
 - (If using a CPU to run the models) Equivalent to a 7th Generation Intel i7 or greater.
 - (If using a GPU to run the models) Equivalent to a GTX 1060 or greater.
-- At least 4GB of RAM
+- At least 6GB of RAM assigned to Docker
+  - **Please Note:** The servers themselves will function on less than 6GB of RAM, however, the API server will fail to load the PyTorch models or fail to perform Recognition/Detection on a large given images.
+- Windows/MacOS/Linux with Docker installed
 - Docker >=v2.1.0.5
 - Docker Compose >=v1.25.4
 - Approx 4GB of space
