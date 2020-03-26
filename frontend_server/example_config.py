@@ -1,4 +1,4 @@
 DEBUG = False
 ENV = 'production'
 TESTING = False
-API_ENDPOINT = 'http://localhost/api'
+API_ENDPOINT = '/api'
