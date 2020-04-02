@@ -8,7 +8,7 @@
 
 ## Description
 
-This project aims to detect and transcribe text written on a whiteboard in a classroom environment. Handwritten athematical equations and drawn diagrams will not be targetted as an area for transcription.
+This project aims to detect and transcribe text written on a whiteboard in a classroom environment. Handwritten mathematical equations and drawn diagrams will not be targetted as an area for transcription.
 
 A client-server relationship is leveraged to achieve functionality. Docker is used to host the server components and deliver the client-side assets to a user's web browser. Text detection and text recognition is achieved through usage of two neural networks running on the server.
 
@@ -19,7 +19,7 @@ A client-server relationship is leveraged to achieve functionality. Docker is us
 - (If using a CPU to run the models) Equivalent to a 7th Generation Intel i7 or greater.
 - (If using a GPU to run the models) Equivalent to a GTX 1060 or greater.
 - At least 6GB of RAM assigned to Docker
-  - **Please Note:** The servers themselves will function on less than 6GB of RAM, however, the API server will fail to load the PyTorch models or fail to perform Recognition/Detection on a large given images.
+  - **Please Note:** The servers themselves will function on less than 6GB of RAM, however, the API server will fail to load the PyTorch models or fail to perform Recognition/Detection on a large given image.
 - Windows/MacOS/Linux with Docker installed
 - Docker >=v2.1.0.5
 - Docker Compose >=v1.25.4
