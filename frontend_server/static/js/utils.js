@@ -665,3 +665,62 @@ function renderPDF() {
     // doc.save("recognition.pdf");
     pdfMake.createPdf(docDefinition).download('recognition.pdf');
 }
+
+
+function hideOthersAndSelect(className, elm) {
+    // Hiding all existing selected snapshots
+    selectedElms = document.getElementsByClassName(className);
+    while(selectedElms.length) {
+        selectedElms[0].classList.remove(className);
+    }
+
+    elm.classList.add(className);
+}
+
+
+function appendSliderItem(slider, sliderItems, refElm, title, canvas) {
+    // Creating the UIkit card
+    let item = document.createElement("li");
+    let clickCover = document.createElement("div");
+    clickCover.style.width = "100%";
+    clickCover.style.Height = "100%";
+    clickCover.style.display = "block";
+    let localRefElm = refElm
+    item.addEventListener("click", function() {
+        hideOthersAndSelect("selected-snapshot", localRefElm);
+    })
+
+    let card = document.createElement("div");
+    card.classList.add("uk-card", "uk-card-default");
+    let cardMedia = document.createElement("div");
+    cardMedia.classList.add("uk-card-media-top");
+
+    // Converting canvas to img
+    let imgb64 = canvas.toDataURL();
+    let image = document.createElement("img");
+    image.setAttribute("src", imgb64);
+    cardMedia.appendChild(image);
+
+    let cardBody = document.createElement("div");
+    cardBody.classList.add("uk-card-body");
+    let cardTitle = document.createElement("h3");
+    cardTitle.classList.add("uk-card-title");
+    cardTitle.innerHTML = title;
+    let cardText = document.createElement("p");
+
+    cardBody.appendChild(cardTitle);
+    cardBody.appendChild(cardText);
+    card.appendChild(cardMedia);
+    card.appendChild(cardBody);
+    item.appendChild(card);
+
+    // Appending item and showing it
+    hideOthersAndSelect("selected-snapshot", localRefElm);
+    sliderItems.appendChild(item);
+    console.log(sliderItems.children.length)
+    let itemIdx = sliderItems.children.length;
+    // Hack to wait for DOM to update
+    setTimeout(function(){
+        UIkit.slider(slider).show(Number(itemIdx)-1);
+    }, 20);
+}

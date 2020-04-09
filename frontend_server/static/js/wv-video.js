@@ -23,10 +23,12 @@ async function initMediaStream(videoElement) {
 function renderVideoSection() {
     let buttonContainer = document.getElementById("button-container");
     let videoSection = document.getElementById("video-section")
+    let videoSlider = document.getElementById("video-slider");
 
     // Hide Buttons and Show Upload Section
     buttonContainer.classList.add("hidden");
     videoSection.classList.remove("hidden");
+    videoSlider.classList.remove("hidden");
 
     let videoContainer = document.createElement("div");
     videoContainer.id = "video-container";
@@ -108,6 +110,8 @@ function drawVideoPoint(evt) {
  */
 function captureVideoFrame() {
     let videoSection = document.getElementById("video-section");
+    let videoSlider = document.getElementById("video-slider");
+    let videoSliderItems = document.getElementById("video-slider-items");
     let video = document.getElementById("webcam-stream");
     let points = document.getElementById("webcam-stream-points");
 
@@ -129,6 +133,9 @@ function captureVideoFrame() {
 
     let ctx = canvas.getContext('2d');
     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+    // Adding new snapshot to slider
+    appendSliderItem(videoSlider, videoSliderItems, snapshotContainer, dt, canvas);
 
     // Cropping (optional) and rendering
     if (points.childElementCount === 4) {

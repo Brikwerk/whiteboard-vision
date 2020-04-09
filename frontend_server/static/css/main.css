@@ -105,9 +105,14 @@ html, body {
 
 .snapshot-container {
     padding-top: 1.75rem;
-    display: block;
+    display: none;
     position: relative;
     max-width: 100%;
+    margin-bottom: 1rem;
+}
+
+.snapshot-container>:last-child {
+    margin-bottom: 2rem;
 }
 
 .snapshot-container h3 {
@@ -117,6 +122,22 @@ html, body {
 
 .webcam-snapshot {
     width: 100%;
+}
+
+#video-slider {
+    padding-top: 1rem;
+}
+
+.uk-slidenav {
+    background-color: white;
+}
+
+.selected-snapshot {
+    display: block !important;
+}
+
+.uk-slider-items li, .uk-slider-items li * {
+    cursor: pointer;
 }
 
 
